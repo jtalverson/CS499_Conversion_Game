@@ -17,7 +17,7 @@ public class MoveRX : MonoBehaviour
     void FixedUpdate()
     {
         transform.position += new Vector3(moveDistance, 0f, 0f);
-        circle.position += new Vector3(moveDistance, 0f, 0f);
+        //circle.position += new Vector3(moveDistance, 0f, 0f);
         transform.eulerAngles += Vector3.forward * degrees;
     }
 }
