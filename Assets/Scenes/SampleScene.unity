@@ -201,12 +201,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89897298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.3, y: -4.06, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -3.5953, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &89897301
 MonoBehaviour:
@@ -215,11 +215,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89897298}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a19e63c05dda5d469030c2396039747, type: 3}
+  m_Script: {fileID: 11500000, guid: b559ba973a7f8cb428181b7f4ebd1178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeDistance: 0.75
+  stepSize: 0.75
+  rotationAngle: 30
+  endPosition: -3
+  fixSteps: 0
+  fixedSteps: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +279,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.1693487
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -315,6 +321,7 @@ GameObject:
   - component: {fileID: 1471125390}
   - component: {fileID: 1471125389}
   - component: {fileID: 1471125391}
+  - component: {fileID: 1471125392}
   m_Layer: 0
   m_Name: RX pad test
   m_TagString: Untagged
@@ -382,12 +389,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471125388}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.03, y: 1.39, z: 0}
+  m_LocalScale: {x: 0.4905124, y: 0.50260043, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1471125391
 MonoBehaviour:
@@ -396,7 +403,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471125388}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e79bd8c6579b0f24ba0ba4a672ddd01d, type: 3}
   m_Name: 
@@ -404,3 +411,21 @@ MonoBehaviour:
   moveDistance: 0.0001
   degrees: 1
   circle: {fileID: 89897300}
+--- !u!114 &1471125392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471125388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559ba973a7f8cb428181b7f4ebd1178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeDistance: 0.75
+  stepSize: 0.75
+  rotationAngle: 20
+  endPosition: 4
+  fixSteps: 1
+  fixedSteps: 5
