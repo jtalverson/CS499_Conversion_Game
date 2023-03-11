@@ -22,9 +22,9 @@ public class GameStateController : MonoBehaviour
     }
     public enum GameDifficulty
     {
-        Easy,
-        Normal,
-        Hard
+        Easy = 1,
+        Normal = 2,
+        Hard = 3 
     }
     [HideInInspector]
     public GameObject currentGameState;
@@ -32,12 +32,22 @@ public class GameStateController : MonoBehaviour
     public GameObject lastGameState;
     [HideInInspector]
     public GameDifficulty gameDifficulty;
+    [Header("MainMenu")]
     public GameObject MainMenuCanvas;
+    [Header("High Score")]
     public GameObject HiScoreCanvas;
-    public GameObject PreLobbyCanvas;
+    [Header("Difficulty")]
+    public GameObject DifficultyCanvas;
+    [Header("Gameplay")]
     public GameObject GameplayCanvas;
+    public GameObject StrikesCanvas;
+    [Header("Score Recap")]
     public GameObject ScoreRecapCanvas;
+    [Header("Pause")]
     public GameObject PauseCanvas;
+    [Header("Credits")]
+    public GameObject CreditsCanvas;
+    [Header("Overlay Buttons")]
     public GameObject BackButton;
     public GameObject PauseButton;
 
@@ -49,10 +59,11 @@ public class GameStateController : MonoBehaviour
         BackButton.SetActive(false);
         MainMenuCanvas.SetActive(true);
         HiScoreCanvas.SetActive(false);
-        PreLobbyCanvas.SetActive(false);
+        DifficultyCanvas.SetActive(false);
         GameplayCanvas.SetActive(false);
         ScoreRecapCanvas.SetActive(false);
         PauseCanvas.SetActive(false);
+        CreditsCanvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -76,7 +87,35 @@ public class GameStateController : MonoBehaviour
                 break;
         }
         Debug.Log(string.Format("Entering game with difficulty: {0}", gameDifficulty.ToString()));
+        // setup other canvases
+
+        // set strikes
+        var strikeController = StrikesCanvas.GetComponent<StrikeController>();
+        strikeController.setNumStrikes(gameDifficulty);
+
+
         SetActiveCanvas(GameplayCanvas);
+    }
+
+    public void EnterPause()
+    {
+        // pause game functions here
+        // show pause canvas
+        PauseCanvas.SetActive(true);
+        PauseButton.SetActive(false);
+    }
+
+    public void ExitPause()
+    {
+        // Restart game functions
+        PauseCanvas.SetActive(false);
+        PauseButton.SetActive(true);
+    }
+
+    public void ExitGame()
+    {
+        // reset gameplay state here
+        Start();
     }
 
     public void SetLastCanvas()
