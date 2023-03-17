@@ -10,21 +10,19 @@ public class StrikeController : MonoBehaviour
     public GameObject strikePrefab;
     public Color offColor;
     public Color onColor;
+    public int NumStrikesEasy = 5;
+    public int NumStrikesNormal = 3;
+    public int NumStrikesHard = 1;
+
     void Start()
     {
 
     }
-    public void setNumStrikes(GameStateController.GameDifficulty gameDifficulty)
+    
+    public void setNumStrikes(int numStrikes)
     {
         // disable all strikes
         foreach (var strike in strikes) strike.SetActive(false);
-        int numStrikes = 0;
-        switch (gameDifficulty)
-        {
-            case GameStateController.GameDifficulty.Easy: numStrikes = 5; break;
-            case GameStateController.GameDifficulty.Normal: numStrikes = 3; break;
-            case GameStateController.GameDifficulty.Hard: numStrikes = 1; break;
-        }
         for (int i = 0; i < numStrikes; i++)
         {
             strikes[i].SetActive(true);
@@ -40,4 +38,5 @@ public class StrikeController : MonoBehaviour
         else
             strikeImage.color = offColor;
     }
+    
 }
