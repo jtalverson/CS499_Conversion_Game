@@ -12,6 +12,7 @@ public class GameStateController : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
     }
 
 }
