@@ -1,11 +1,8 @@
 using System;
-using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 namespace UI.Pagination
-{        
+{
     public class DragEventAnalysis
     {
         private PointerEventData data;
@@ -34,10 +31,10 @@ namespace UI.Pagination
                 return eDragPlane.None;
             }
         }
-            
+
         public DragEventAnalysis(PointerEventData data)
         {
-            this.data = data;                
-        }            
-    }    
+            this.data = data;
+        }
+    }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HiScorePageController : MonoBehaviour
@@ -17,6 +15,6 @@ public class HiScorePageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

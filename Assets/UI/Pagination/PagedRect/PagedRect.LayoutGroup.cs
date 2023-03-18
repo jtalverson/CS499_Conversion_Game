@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,12 +28,12 @@ namespace UI.Pagination
             var newLayoutGroup = ScrollRect.content.gameObject.AddComponent<PagedRect_LayoutGroup>();
 
             newLayoutGroup.pagedRect = this;
-            newLayoutGroup.Axis = ScrollRect.horizontal ? RectTransform.Axis.Horizontal : RectTransform.Axis.Vertical;            
+            newLayoutGroup.Axis = ScrollRect.horizontal ? RectTransform.Axis.Horizontal : RectTransform.Axis.Vertical;
         }
 
         void RemoveLayoutGroup(LayoutGroup layoutGroup)
         {
-            DestroyImmediate(layoutGroup);            
+            DestroyImmediate(layoutGroup);
         }
     }
 }

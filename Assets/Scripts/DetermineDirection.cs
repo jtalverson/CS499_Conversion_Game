@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DetermineDirection : MonoBehaviour
@@ -7,7 +6,7 @@ public class DetermineDirection : MonoBehaviour
     // https://docs.unity3d.com/ScriptReference/Touch-phase.html
 
     // How far the user needs to swipe in order to count
-    public float swipeDistance = .75f; 
+    public float swipeDistance = .75f;
     // How fast the object will finish moving off screen if swipe accepted
     public float stepSize = .75f;
     // How far the object will rotate with swipe

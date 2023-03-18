@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +17,7 @@ public class StrikeController : MonoBehaviour
     {
 
     }
-    
+
     public void setNumStrikes(int numStrikes)
     {
         // disable all strikes
@@ -29,7 +28,7 @@ public class StrikeController : MonoBehaviour
             setStrikeStatus(i, false);
         }
     }
-    
+
     void setStrikeStatus(int strikeIndex, bool status)
     {
         var strikeImage = Utility.FindObject(strikes[strikeIndex], "Controller").GetComponent<Image>();
@@ -38,5 +37,5 @@ public class StrikeController : MonoBehaviour
         else
             strikeImage.color = offColor;
     }
-    
+
 }

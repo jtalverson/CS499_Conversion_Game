@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
-using UnityEngine.SceneManagement;
 
 namespace UI.Pagination.Examples
 {
@@ -36,7 +35,7 @@ namespace UI.Pagination.Examples
         {
             if (exampleGameObjects.ContainsKey(name))
             {
-                foreach(var kvp in exampleGameObjects)
+                foreach (var kvp in exampleGameObjects)
                 {
                     if (kvp.Key != name) kvp.Value.gameObject.SetActive(false);
                 }

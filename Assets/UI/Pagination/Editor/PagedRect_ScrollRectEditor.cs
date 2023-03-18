@@ -1,9 +1,4 @@
-using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using System.Linq;
-using System.Reflection;
-using System;
 
 namespace UI.Pagination
 {
@@ -15,8 +10,8 @@ namespace UI.Pagination
 
         public void OnEnable()
         {
-          //  so = new SerializedObject(target);
-          //  DisableDragging = so.FindProperty("DisableDragging");
+            //  so = new SerializedObject(target);
+            //  DisableDragging = so.FindProperty("DisableDragging");
         }
 
         public override void OnInspectorGUI()
@@ -26,6 +21,6 @@ namespace UI.Pagination
             EditorGUILayout.Space();
 
             //EditorGUILayout.PropertyField(DisableDragging);
-        }        
+        }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScripts : MonoBehaviour
@@ -10,7 +8,7 @@ public class BackgroundScripts : MonoBehaviour
     public RectTransform SquaresPattern;
     void Start()
     {
-        
+
         // scale the base color sprite to match the canvas
         Vector2 canvasSize = this.GetComponent<RectTransform>().sizeDelta;
         Vector3 baseColorScale = new Vector3(canvasSize[0], canvasSize[1], 1);

@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace UI.Pagination
 {
@@ -60,7 +55,7 @@ namespace UI.Pagination
                 }
             }
 
-            if(!handled)
+            if (!handled)
             {
                 if (direction == DeltaDirection.Next)
                 {

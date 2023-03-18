@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace UI.Pagination
@@ -16,10 +13,10 @@ namespace UI.Pagination
         }
 
         void OnRectTransformDimensionsChange()
-        {            
-            if (_pagedRect == null) return;            
+        {
+            if (_pagedRect == null) return;
 
             _pagedRect.ViewportDimensionsChanged();
-        } 
+        }
     }
 }
