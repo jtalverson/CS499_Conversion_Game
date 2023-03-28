@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveRX : MonoBehaviour
@@ -9,10 +7,10 @@ public class MoveRX : MonoBehaviour
 
     public Transform circle;
 
-/*    private void Start()
-    {
-        circle = GameObject.Find("Circle").GetComponent<Transform>();
-    }*/
+    /*    private void Start()
+        {
+            circle = GameObject.Find("Circle").GetComponent<Transform>();
+        }*/
 
     void FixedUpdate()
     {

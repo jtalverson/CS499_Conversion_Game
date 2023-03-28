@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - MenuItem
+  - ScoreValue
+  - StreakValue
   layers:
   - Default
   - TransparentFX
@@ -38,6 +41,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 122350375
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GameCanvasActiveScreen
+    uniqueID: 4056790607
+    locked: 0
+  - name: GameCanvasContextBtn
+    uniqueID: 1947122937
+    locked: 0
+  - name: GameCanvasPause
+    uniqueID: 1686067037
     locked: 0
