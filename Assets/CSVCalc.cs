@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using Random = UnityEngine.Random;
 //using UnityEngine.CoreModule;
 
-public class CSVConv : MonoBehaviour
+public class CSVCalc : MonoBehaviour
 {
     public TextAsset textAssetData;
 
@@ -61,7 +61,7 @@ public class CSVConv : MonoBehaviour
 
     }
 
-    public void PopulateConversion() 
+    public void PopulateConversion()
     {
         question1Text = question1Object.GetComponent<TextMeshProUGUI>();
         question2Text = question2Object.GetComponent<TextMeshProUGUI>();
