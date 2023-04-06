@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PickProblems : MonoBehaviour
 {
+    /*
     public class Problem // temporary class for developing purpose
     {
         public string Question1 { get; set; }
@@ -17,13 +18,13 @@ public class PickProblems : MonoBehaviour
     public List<Problem> calculationProblemBank; // import from sheet
     public int conversionCount; // import based on level
     public int calculationCount; // import based on level
-    
+    */
     // Start is called before the first frame update
     void Start()
     {
         
     }
-
+    /*
     public void pickProblemSet () 
     {
         // append randomly picked conversion problems to the set
@@ -46,6 +47,6 @@ public class PickProblems : MonoBehaviour
         }
         problemsSet.Add(bank.GetRange(0, problemCount));
     }
-
+    */
     
 }
