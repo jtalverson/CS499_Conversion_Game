@@ -63,16 +63,23 @@ public class CSVConv : MonoBehaviour
 
     public void PopulateConversion() 
     {
-        question1Text = question1Object.GetComponent<TextMeshProUGUI>();
-        question2Text = question2Object.GetComponent<TextMeshProUGUI>();
-        question3Text = question3Object.GetComponent<TextMeshProUGUI>();
-
         int random = Random.Range(0, 112);
-        question1Text.text = myQList.question[random].question1;
-        question2Text.text = myQList.question[random].question2;
-        question3Text.text = myQList.question[random].question3;
+        List<int> numbersUsed = new List<int>();
 
-        answerText.text = myQList.question[random].answers;
+        if (!numbersUsed.Contains(random))
+        {
+            question1Text = question1Object.GetComponent<TextMeshProUGUI>();
+            question2Text = question2Object.GetComponent<TextMeshProUGUI>();
+            question3Text = question3Object.GetComponent<TextMeshProUGUI>();
+
+            question1Text.text = myQList.question[random].question1;
+            question2Text.text = myQList.question[random].question2;
+            question3Text.text = myQList.question[random].question3;
+
+            answerText.text = myQList.question[random].answers;
+
+            numbersUsed.Add(random);
+        }
     }
 
     void ReadCSV()
