@@ -9,6 +9,17 @@ public class GameStateController : MonoBehaviour
     /// 
 
 
+    private bool _gameended = false;
+
+    public bool Get_GameEnded()
+    {
+        return _gameended;
+    }
+
+    public void Set_GameEnded(bool val)
+    {
+        _gameended = val;
+    }
 
     private void Start()
     {
