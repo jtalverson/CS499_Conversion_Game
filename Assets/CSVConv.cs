@@ -12,19 +12,21 @@ using Random = UnityEngine.Random;
 
 public class CSVConv : MonoBehaviour
 {
+    //creating an assest that will connect to the CSV we want to read in
     public TextAsset textAssetData;
 
-    //Text Components 
+    //creating Text Components that will
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
     public TextMeshProUGUI answerText;
 
-    //UI Game Objects
+    //creating the UI Game Objects
     public GameObject question1Object;
     public GameObject question2Object;
     public GameObject question3Object;
 
+    //Class to hold the different variables read in from the CSV
     [System.Serializable]
     public class Question
     {
@@ -34,12 +36,14 @@ public class CSVConv : MonoBehaviour
         public string answers;
     }
 
+    //Class that creates a list of the questions
     [System.Serializable]
     public class QuestionList
     {
         public Question[] question;
     }
 
+    //new question List
     public QuestionList myQList = new QuestionList();
 
     // Start is called before the first frame update
@@ -48,24 +52,19 @@ public class CSVConv : MonoBehaviour
         ReadCSV();
         PopulateConversion();
 
-        //if((answerText.text == 'Yes' && swipe == right) || (answerText.text == 'No' && swipe == left))
-        //  then CORRECT
-        //else if ((answerText.text == 'Yes' && swipe == left) || (answerText.text == 'No' && swipe == right))
-        //then WRONG
     }
 
     void Update()
+    { }
+
+    //Function to choose a random entry in the list and display on the screen
+    public void PopulateConversion()
     {
-
-
-
-    }
-
-    public void PopulateConversion() 
-    {
+        //random number from the options in the Question List
         int random = Random.Range(0, 112);
         List<int> numbersUsed = new List<int>();
 
+        //check if that question has already been asked
         if (!numbersUsed.Contains(random))
         {
             question1Text = question1Object.GetComponent<TextMeshProUGUI>();
@@ -78,10 +77,12 @@ public class CSVConv : MonoBehaviour
 
             answerText.text = myQList.question[random].answers;
 
+            //add new number into used number list
             numbersUsed.Add(random);
         }
     }
 
+    //Function to take in the data from the CSV
     void ReadCSV()
     {
         string[] data = textAssetData.text.Split(new string[] { ",", "\n" }, StringSplitOptions.None);
@@ -96,9 +97,5 @@ public class CSVConv : MonoBehaviour
             myQList.question[i].question3 = data[4 * (i + 1) + 2];
             myQList.question[i].answers = data[4 * (i + 1) + 3];
         }
-
     }
-
-
-
 }
