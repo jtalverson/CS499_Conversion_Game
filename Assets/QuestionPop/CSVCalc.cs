@@ -19,12 +19,14 @@ public class CSVCalc : MonoBehaviour
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
-    public string answerText;
+    public Swipe swipe;
 
     //creating the UI Game Objects
     public GameObject question1Object;
     public GameObject question2Object;
     public GameObject question3Object;
+
+    private List<int> numbersUsed = new List<int>();
 
     //Class to hold the different variables read in from the CSV
     [System.Serializable]
@@ -58,24 +60,25 @@ public class CSVCalc : MonoBehaviour
     {
         //random number from the options in the Question List
         int random = Random.Range(0, 112);
-        List<int> numbersUsed = new List<int>();
 
         //check if that question has already been asked
-        if (!numbersUsed.Contains(random))
+        while (numbersUsed.Contains(random))
         {
-            question1Text = question1Object.GetComponent<TextMeshProUGUI>();
-            question2Text = question2Object.GetComponent<TextMeshProUGUI>();
-            question3Text = question3Object.GetComponent<TextMeshProUGUI>();
-
-            question1Text.text = myQList.question[random].question1;
-            question2Text.text = myQList.question[random].question2;
-            question3Text.text = myQList.question[random].question3;
-
-            answerText = myQList.question[random].answers;
-
-            //add new number into used number list
-            numbersUsed.Add(random);
+            random = Random.Range(0, 112);
         }
+        question1Text = question1Object.GetComponent<TextMeshProUGUI>();
+        question2Text = question2Object.GetComponent<TextMeshProUGUI>();
+        question3Text = question3Object.GetComponent<TextMeshProUGUI>();
+
+        question1Text.text = myQList.question[random].question1;
+        question2Text.text = myQList.question[random].question2;
+        question3Text.text = myQList.question[random].question3;
+
+        swipe.currentAnswer = myQList.question[random].answers;
+
+        //add new number into used number list
+        numbersUsed.Add(random);
+
     }
 
     //Function to take in the data from the CSV

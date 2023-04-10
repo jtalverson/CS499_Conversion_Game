@@ -47,6 +47,9 @@ public class Swipe : MonoBehaviour
     private float buttonPosStep;
     private float buttonRotStep;
 
+    public string currentAnswer;
+    public GameController controller;
+
     private void Start()
     {
         startPosition = transform.position;
@@ -170,6 +173,10 @@ public class Swipe : MonoBehaviour
                 transform.position += new Vector3(xStepSize, 0f, 0f);
                 yield return new WaitForSeconds(xTimeGap);
             }
+            if (currentAnswer == "yes")
+                controller.Populate(true);
+            else
+                controller.Populate(false);
         }
         // Swiped left
         else
@@ -180,6 +187,10 @@ public class Swipe : MonoBehaviour
                 transform.position -= new Vector3(xStepSize, 0f, 0f);
                 yield return new WaitForSeconds(xTimeGap);
             }
+            if (currentAnswer == "no")
+                controller.Populate(true);
+            else
+                controller.Populate(false);
         }
         transform.position = startPosition;
         transform.rotation = startRotation;
@@ -204,6 +215,12 @@ public class Swipe : MonoBehaviour
             transform.position += new Vector3(buttonPosStep, 0);
             yield return new WaitForSeconds(buttonTimeGap);
         }
+
+        if (currentAnswer == "yes")
+            controller.Populate(true);
+        else
+            controller.Populate(false);
+
         transform.position = startPosition;
         transform.rotation = startRotation;
         canSwipe = true;
@@ -225,6 +242,12 @@ public class Swipe : MonoBehaviour
             transform.position -= new Vector3(buttonPosStep, 0);
             yield return new WaitForSeconds(buttonTimeGap);
         }
+
+        if (currentAnswer == "no")
+            controller.Populate(true);
+        else
+            controller.Populate(false);
+
         transform.position = startPosition;
         transform.rotation = startRotation;
         canSwipe = true;

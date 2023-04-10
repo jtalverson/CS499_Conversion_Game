@@ -34,28 +34,35 @@ public class GameController : MonoBehaviour
         currentDifficulty = difficulties.config.populateData[diffIndex];
     }    
 
-    public void Populate()
+    public void Populate(bool questionRight)
     {
+        if (!questionRight)
+            counter.StrikeLimit += 1;
+
         bool usedAllStrikes = counter.StrikeLimit == currentDifficulty.StrikeLimit;
         bool conversionDone = counter.ConversionCount == currentDifficulty.ConversionCount;
         bool calculationDone = counter.CalculationCount == currentDifficulty.CalculationCount;
         if (!usedAllStrikes && !conversionDone)
         {
             conversions.PopulateConversion();
-            counter.ConversionCount += 1;
+            if (questionRight)
+                counter.ConversionCount += 1;
         }
         else if (!usedAllStrikes && !calculationDone)
         {
             calculations.PopulateCalculation();
-            counter.CalculationCount += 1;
+            if (questionRight)
+                counter.CalculationCount += 1;
         }
         else if (!usedAllStrikes && conversionDone && calculationDone)
         {
             // Game Over WIN
+            Debug.Log("You WON!");
         }
         else
         {
             // Game Over LOST
+            Debug.Log("You lost...");
         }
     }
 
