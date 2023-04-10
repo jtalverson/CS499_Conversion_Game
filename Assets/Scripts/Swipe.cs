@@ -57,6 +57,8 @@ public class Swipe : MonoBehaviour
 
     private bool startTimer = false;
 
+    public GameObject pauseMenu;
+
     private void Start()
     {
         startPosition = transform.position;
@@ -83,6 +85,9 @@ public class Swipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseMenu.activeInHierarchy)
+            return;
+
         currentRotationAngles = transform.localRotation.eulerAngles;
         if (Input.touchCount > 0 && canSwipe && !reset)
         {
@@ -97,8 +102,9 @@ public class Swipe : MonoBehaviour
                 if (raycastResults.Count > 0)
                     foreach (var cast in raycastResults)
                     {
-                        // Debug.Log(cast.gameObject.name);
-                        if (cast.gameObject.name == "DisapproveBtn" || cast.gameObject.name == "ApproveBtn")
+                        Debug.Log(cast.gameObject.name);
+                        if (cast.gameObject.name == "DisapproveBtn" || cast.gameObject.name == "ApproveBtn" 
+                            || cast.gameObject.name.Contains("Pause"))
                         {
                             Debug.Log("Touched Buttons");
                             touchedUI = true;
@@ -188,7 +194,6 @@ public class Swipe : MonoBehaviour
     public IEnumerator AcceptOrReject()
     {
         controller.timer.timerIsRunning = false;
-        Debug.Log(controller.timer.timeRemaining);
 
         // Swiped right
         if (distanceMoved > 0)
@@ -202,11 +207,13 @@ public class Swipe : MonoBehaviour
             if (currentAnswer == "Yes")
             {
                 controller.Populate(true);
+                controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
                 Debug.Log("right answer");
             }
             else
             {
                 controller.Populate(false);
+                controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
                 Debug.Log("wrong answer");
             }
         }
@@ -222,11 +229,13 @@ public class Swipe : MonoBehaviour
             if (currentAnswer == "No")
             {
                 controller.Populate(true);
+                controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
                 Debug.Log("right answer");
             }
             else
             {
                 controller.Populate(false);
+                controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
                 Debug.Log("wrong answer");
             }
         }
@@ -265,11 +274,13 @@ public class Swipe : MonoBehaviour
         if (currentAnswer == "Yes")
         {
             controller.Populate(true);
+            controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
         }
         else
         {
             controller.Populate(false);
+            controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
         }
 
@@ -305,11 +316,13 @@ public class Swipe : MonoBehaviour
         if (currentAnswer == "No")
         {
             controller.Populate(true);
+            controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
         }
         else
         {
             controller.Populate(false);
+            controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
         }
 
@@ -332,6 +345,7 @@ public class Swipe : MonoBehaviour
         }
 
         controller.Populate(false);
+        controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
 
         controller.timer.timeRemaining = controller.timer.maxTime;
         controller.timer.UpdateSlider();

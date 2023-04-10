@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class GameStateController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameStateController : MonoBehaviour
     /// 
     public GameObject winMessage;
     public GameObject loseMessage;
+    public ScoringSystem scoringSystem;
 
     private bool _gameended = false;
 
@@ -30,6 +32,10 @@ public class GameStateController : MonoBehaviour
             winMessage.SetActive(true);
         else
             loseMessage.SetActive(true);
+
+        Utility.FindObject(gameObject, "RecapScoreValue").GetComponent<TextMeshProUGUI>().text = scoringSystem.score.ToString();
+        Utility.FindObject(gameObject, "RecapStreakValue").GetComponent<TextMeshProUGUI>().text = scoringSystem.bestStreak.ToString();
+
         _gameended = val;
     }
 

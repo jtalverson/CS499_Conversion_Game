@@ -21,10 +21,13 @@ public class GameController : MonoBehaviour
 
     public Timer timer;
 
+    public ScoringSystem scoringSystem;
+
     // Start is called before the first frame update
     private void Start()
     {
         ResetCounter();
+        scoringSystem.ResetScoring();
     }
 
     // Update is called once per frame
@@ -36,6 +39,7 @@ public class GameController : MonoBehaviour
     public void DetermineDifficulty()
     {
         ResetCounter();
+        scoringSystem.ResetScoring();
         diffIndex = diffScroller.GetCurrentPage().PageNumber - 1;
         currentDifficulty = difficulties.config.populateData[diffIndex];
         timer.maxTime = currentDifficulty.TimePerConversion;
