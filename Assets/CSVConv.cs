@@ -51,11 +51,7 @@ public class CSVConv : MonoBehaviour
     {
         ReadCSV();
         PopulateConversion();
-
     }
-
-    void Update()
-    { }
 
     //Function to choose a random entry in the list and display on the screen
     public void PopulateConversion()

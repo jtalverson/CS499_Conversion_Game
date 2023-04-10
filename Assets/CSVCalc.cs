@@ -50,11 +50,11 @@ public class CSVCalc : MonoBehaviour
     void Start()
     {
         ReadCSV();
-        PopulateConversion();
+        //PopulateCalculation();
     }
 
     //Function to choose a random entry in the list and display on the screen
-    public void PopulateConversion()
+    public void PopulateCalculation()
     {
         //random number from the options in the Question List
         int random = Random.Range(0, 112);
