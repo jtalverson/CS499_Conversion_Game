@@ -47,14 +47,33 @@ public class Swipe : MonoBehaviour
     private float buttonPosStep;
     private float buttonRotStep;
 
+    public float finalY = -6f;
+    public float rejectSteps = 9f;
+    public float rejectTimeGap = .05f;
+    private float rejectPosStep;
+
     public string currentAnswer;
     public GameController controller;
+
+    private bool startTimer = false;
 
     private void Start()
     {
         startPosition = transform.position;
         startRotation = transform.localRotation;
         startRotationAngles = startRotation.eulerAngles;
+    }
+
+    private void OnEnable()
+    {
+        if (startTimer)
+            controller.timer.timerIsRunning = true;
+    }
+
+    private void OnDisable()
+    {
+        if (!startTimer)
+            startTimer = true;
     }
 
     // Update is called once per frame
@@ -164,6 +183,9 @@ public class Swipe : MonoBehaviour
 
     public IEnumerator AcceptOrReject()
     {
+        controller.timer.timerIsRunning = false;
+        Debug.Log(controller.timer.timeRemaining);
+
         // Swiped right
         if (distanceMoved > 0)
         {
@@ -204,15 +226,23 @@ public class Swipe : MonoBehaviour
                 Debug.Log("wrong answer");
             }
         }
+
+        controller.timer.timeRemaining = controller.timer.maxTime;
+        controller.timer.UpdateSlider();
+
         transform.position = startPosition;
         transform.rotation = startRotation;
         // yield return new WaitForSeconds(respawnDelay);
         canSwipe = true;
         distanceMoved = 0f;
+        controller.timer.timerIsRunning = true;
     }
 
     public void Accept()
     {
+        controller.timer.timerIsRunning = false;
+        Debug.Log(controller.timer.timeRemaining);
+
         buttonPosStep = finalX / buttonSteps;
         buttonRotStep = maxButtonRotation / buttonSteps;
         Debug.Log("Accepted");
@@ -239,13 +269,20 @@ public class Swipe : MonoBehaviour
             Debug.Log("wrong answer");
         }
 
+        controller.timer.timeRemaining = controller.timer.maxTime;
+        controller.timer.UpdateSlider();
+
         transform.position = startPosition;
         transform.rotation = startRotation;
         canSwipe = true;
+        controller.timer.timerIsRunning = true;
     }
 
     public void Reject()
     {
+        controller.timer.timerIsRunning = false;
+        Debug.Log(controller.timer.timeRemaining);
+
         buttonPosStep = finalX / buttonSteps;
         buttonRotStep = maxButtonRotation / buttonSteps;
         Debug.Log("Rejected");
@@ -272,8 +309,32 @@ public class Swipe : MonoBehaviour
             Debug.Log("wrong answer");
         }
 
+        controller.timer.timeRemaining = controller.timer.maxTime;
+        controller.timer.UpdateSlider();
+
         transform.position = startPosition;
         transform.rotation = startRotation;
         canSwipe = true;
+        controller.timer.timerIsRunning = true;
+    }
+
+    public IEnumerator TimeUp()
+    {
+        rejectPosStep = Mathf.Abs(transform.position.y - finalY) / rejectSteps;
+        while (transform.position.y > finalY)
+        {
+            transform.position -= new Vector3(0, rejectPosStep);
+            yield return new WaitForSeconds(rejectTimeGap);
+        }
+
+        controller.Populate(false);
+
+        controller.timer.timeRemaining = controller.timer.maxTime;
+        controller.timer.UpdateSlider();
+
+        transform.position = startPosition;
+        transform.rotation = startRotation;
+        canSwipe = true;
+        controller.timer.timerIsRunning = true;
     }
 }

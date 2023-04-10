@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
 
     public StrikeController strikeController;
 
+    public Timer timer;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -34,6 +36,8 @@ public class GameController : MonoBehaviour
     {
         diffIndex = diffScroller.GetCurrentPage().PageNumber - 1;
         currentDifficulty = difficulties.config.populateData[diffIndex];
+        timer.maxTime = currentDifficulty.TimePerCalculation;
+        timer.timeRemaining = timer.maxTime;
     }    
 
     public void Populate(bool questionRight)
@@ -48,6 +52,10 @@ public class GameController : MonoBehaviour
         bool usedAllStrikes = counter.StrikeLimit == currentDifficulty.StrikeLimit;
         bool conversionDone = counter.ConversionCount == currentDifficulty.ConversionCount;
         bool calculationDone = counter.CalculationCount == currentDifficulty.CalculationCount;
+
+        if (conversionDone)
+            timer.maxTime = currentDifficulty.TimePerCalculation;
+
         if (!usedAllStrikes && !conversionDone)
         {
             conversions.PopulateConversion();
