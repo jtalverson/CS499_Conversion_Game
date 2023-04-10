@@ -9,14 +9,9 @@ public class StrikeController : MonoBehaviour
     public GameObject strikePrefab;
     public Color offColor;
     public Color onColor;
-    public int NumStrikesEasy = 5;
-    public int NumStrikesNormal = 3;
-    public int NumStrikesHard = 1;
-
-    void Start()
-    {
-
-    }
+    public int NumStrikesEasy;
+    public int NumStrikesNormal;
+    public int NumStrikesHard;
 
     public void setNumStrikes(int numStrikes)
     {
@@ -29,7 +24,7 @@ public class StrikeController : MonoBehaviour
         }
     }
 
-    void setStrikeStatus(int strikeIndex, bool status)
+    public void setStrikeStatus(int strikeIndex, bool status)
     {
         var strikeImage = Utility.FindObject(strikes[strikeIndex], "Controller").GetComponent<Image>();
         if (status)

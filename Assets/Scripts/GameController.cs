@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public PopulateDiff.Difficulty counter;
 
     public StrikeController strikeController;
+    public GameStateController stateController;
 
     public Timer timer;
 
@@ -34,9 +35,10 @@ public class GameController : MonoBehaviour
 
     public void DetermineDifficulty()
     {
+        ResetCounter();
         diffIndex = diffScroller.GetCurrentPage().PageNumber - 1;
         currentDifficulty = difficulties.config.populateData[diffIndex];
-        timer.maxTime = currentDifficulty.TimePerCalculation;
+        timer.maxTime = currentDifficulty.TimePerConversion;
         timer.timeRemaining = timer.maxTime;
     }    
 
@@ -44,8 +46,7 @@ public class GameController : MonoBehaviour
     {
         if (!questionRight && counter.StrikeLimit < currentDifficulty.StrikeLimit)
         {
-            Image currentStrike = strikeController.strikes[counter.StrikeLimit].GetComponentInChildren<Image>();
-            currentStrike.color = strikeController.onColor;
+            strikeController.setStrikeStatus(counter.StrikeLimit, true);
             counter.StrikeLimit += 1;
         }
 
@@ -72,11 +73,13 @@ public class GameController : MonoBehaviour
         {
             // Game Over WIN
             Debug.Log("You WON!");
+            stateController.Set_GameEnded(true, true);
         }
         else
         {
             // Game Over LOST
             Debug.Log("You lost...");
+            stateController.Set_GameEnded(true, false);
         }
     }
 

@@ -67,13 +67,17 @@ public class Swipe : MonoBehaviour
     private void OnEnable()
     {
         if (startTimer)
+        {
             controller.timer.timerIsRunning = true;
+            startTimer = false;
+        }
     }
 
     private void OnDisable()
     {
         if (!startTimer)
             startTimer = true;
+        controller.timer.timerIsRunning = false;
     }
 
     // Update is called once per frame

@@ -7,6 +7,7 @@ public class PopulateDiff : MonoBehaviour
 {
     private int propertyCount = 5;
     public TextAsset textAssetData;
+    public StrikeController strikeController;
 
     /// Class <c>Difficulty</c> models a difficulty level with numeric constraints.
     [System.Serializable]
@@ -48,5 +49,9 @@ public class PopulateDiff : MonoBehaviour
             config.populateData[i].TimePerCalculation = Int32.Parse(data[propertyCount * (i + 1) + 3]);
             config.populateData[i].StrikeLimit = Int32.Parse(data[propertyCount * (i + 1) + 4]);
         }
+
+        strikeController.NumStrikesEasy = config.populateData[0].StrikeLimit;
+        strikeController.NumStrikesNormal = config.populateData[1].StrikeLimit;
+        strikeController.NumStrikesHard = config.populateData[2].StrikeLimit;
     }
 }

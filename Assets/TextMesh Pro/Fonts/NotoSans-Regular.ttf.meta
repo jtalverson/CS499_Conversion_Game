@@ -10,7 +10,9 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Noto Sans
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: efa3a95bce6de654385138134f3c7980, type: 3}
+  - {fileID: 12800000, guid: 78c9a2dff67cfe94b8d1056348f612dd, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
