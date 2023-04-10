@@ -19,7 +19,7 @@ public class CSVConv : MonoBehaviour
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
-    public string answerText;
+    public TextMeshProUGUI answerText;
 
     //creating the UI Game Objects
     public GameObject question1Object;
@@ -51,93 +51,33 @@ public class CSVConv : MonoBehaviour
     {
         ReadCSV();
         PopulateConversion();
-    }
+
     }
 
     void Update()
-    {
+    { }
 
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-    }
-
-    void Update()
-    {
-
-
-
-    }
-
-    public void PopulateConversion() 
+    //Function to choose a random entry in the list and display on the screen
+    public void PopulateConversion()
     {
         //random number from the options in the Question List
         int random = Random.Range(0, 112);
         List<int> numbersUsed = new List<int>();
 
+        //check if that question has already been asked
         if (!numbersUsed.Contains(random))
         {
-            random = Random.Range(0, 112);
-        }
+            question1Text = question1Object.GetComponent<TextMeshProUGUI>();
+            question2Text = question2Object.GetComponent<TextMeshProUGUI>();
+            question3Text = question3Object.GetComponent<TextMeshProUGUI>();
 
-        question1Text = question1Object.GetComponent<TextMeshProUGUI>();
-        question2Text = question2Object.GetComponent<TextMeshProUGUI>();
-        question3Text = question3Object.GetComponent<TextMeshProUGUI>();
+            question1Text.text = myQList.question[random].question1;
+            question2Text.text = myQList.question[random].question2;
+            question3Text.text = myQList.question[random].question3;
 
-        question1Text.text = myQList.question[random].question1;
-        question2Text.text = myQList.question[random].question2;
-        question3Text.text = myQList.question[random].question3;
+            answerText.text = myQList.question[random].answers;
 
-        answerText = myQList.question[random].answers;
-
+            //add new number into used number list
             numbersUsed.Add(random);
         }
     }
