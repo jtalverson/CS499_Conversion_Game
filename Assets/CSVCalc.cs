@@ -19,7 +19,7 @@ public class CSVCalc : MonoBehaviour
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
-    public TextMeshProUGUI answerText;
+    public string answerText;
 
     //creating the UI Game Objects
     public GameObject question1Object;
@@ -51,11 +51,7 @@ public class CSVCalc : MonoBehaviour
     {
         ReadCSV();
         PopulateConversion();
-
     }
-
-    void Update()
-    { }
 
     //Function to choose a random entry in the list and display on the screen
     public void PopulateConversion()
@@ -75,7 +71,7 @@ public class CSVCalc : MonoBehaviour
             question2Text.text = myQList.question[random].question2;
             question3Text.text = myQList.question[random].question3;
 
-            answerText.text = myQList.question[random].answers;
+            answerText = myQList.question[random].answers;
 
             //add new number into used number list
             numbersUsed.Add(random);

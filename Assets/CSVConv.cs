@@ -19,7 +19,7 @@ public class CSVConv : MonoBehaviour
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
-    public TextMeshProUGUI answerText;
+    public string answerText;
 
     //creating the UI Game Objects
     public GameObject question1Object;
@@ -75,7 +75,7 @@ public class CSVConv : MonoBehaviour
             question2Text.text = myQList.question[random].question2;
             question3Text.text = myQList.question[random].question3;
 
-            answerText.text = myQList.question[random].answers;
+            answerText = myQList.question[random].answers;
 
             //add new number into used number list
             numbersUsed.Add(random);
