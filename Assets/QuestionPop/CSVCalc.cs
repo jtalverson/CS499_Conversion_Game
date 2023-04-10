@@ -19,6 +19,7 @@ public class CSVCalc : MonoBehaviour
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
+    private string answer;
     public Swipe swipe;
 
     //creating the UI Game Objects
@@ -74,7 +75,8 @@ public class CSVCalc : MonoBehaviour
         question2Text.text = myQList.question[random].question2;
         question3Text.text = myQList.question[random].question3;
 
-        swipe.currentAnswer = myQList.question[random].answers;
+        answer = myQList.question[random].answers;
+        swipe.currentAnswer = answer.Remove(answer.Length - 1);
 
         //add new number into used number list
         numbersUsed.Add(random);

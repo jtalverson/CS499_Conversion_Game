@@ -173,10 +173,16 @@ public class Swipe : MonoBehaviour
                 transform.position += new Vector3(xStepSize, 0f, 0f);
                 yield return new WaitForSeconds(xTimeGap);
             }
-            if (currentAnswer == "yes")
+            if (currentAnswer == "Yes")
+            {
                 controller.Populate(true);
+                Debug.Log("right answer");
+            }
             else
+            {
                 controller.Populate(false);
+                Debug.Log("wrong answer");
+            }
         }
         // Swiped left
         else
@@ -187,10 +193,16 @@ public class Swipe : MonoBehaviour
                 transform.position -= new Vector3(xStepSize, 0f, 0f);
                 yield return new WaitForSeconds(xTimeGap);
             }
-            if (currentAnswer == "no")
+            if (currentAnswer == "No")
+            {
                 controller.Populate(true);
+                Debug.Log("right answer");
+            }
             else
+            {
                 controller.Populate(false);
+                Debug.Log("wrong answer");
+            }
         }
         transform.position = startPosition;
         transform.rotation = startRotation;
@@ -216,10 +228,16 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(buttonTimeGap);
         }
 
-        if (currentAnswer == "yes")
+        if (currentAnswer == "Yes")
+        {
             controller.Populate(true);
+            Debug.Log("right answer");
+        }
         else
+        {
             controller.Populate(false);
+            Debug.Log("wrong answer");
+        }
 
         transform.position = startPosition;
         transform.rotation = startRotation;
@@ -243,10 +261,16 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(buttonTimeGap);
         }
 
-        if (currentAnswer == "no")
+        if (currentAnswer == "No")
+        {
             controller.Populate(true);
+            Debug.Log("right answer");
+        }
         else
+        {
             controller.Populate(false);
+            Debug.Log("wrong answer");
+        }
 
         transform.position = startPosition;
         transform.rotation = startRotation;

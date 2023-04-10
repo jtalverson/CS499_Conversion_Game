@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UI.Pagination;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameController : MonoBehaviour
     public PopulateDiff.Difficulty currentDifficulty;
     public PopulateDiff.Difficulty counter;
 
+    public StrikeController strikeController;
 
     // Start is called before the first frame update
     private void Start()
@@ -36,8 +38,12 @@ public class GameController : MonoBehaviour
 
     public void Populate(bool questionRight)
     {
-        if (!questionRight)
+        if (!questionRight && counter.StrikeLimit < currentDifficulty.StrikeLimit)
+        {
+            Image currentStrike = strikeController.strikes[counter.StrikeLimit].GetComponentInChildren<Image>();
+            currentStrike.color = strikeController.onColor;
             counter.StrikeLimit += 1;
+        }
 
         bool usedAllStrikes = counter.StrikeLimit == currentDifficulty.StrikeLimit;
         bool conversionDone = counter.ConversionCount == currentDifficulty.ConversionCount;
