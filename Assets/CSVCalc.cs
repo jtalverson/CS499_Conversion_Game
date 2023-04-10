@@ -18,7 +18,7 @@ public class CSVCalc : MonoBehaviour
     public TextMeshProUGUI question1Text;
     public TextMeshProUGUI question2Text;
     public TextMeshProUGUI question3Text;
-    public TextMeshProUGUI answerText;
+    public string answerText;
 
     //UI Game Objects
     public GameObject question1Object;
@@ -46,40 +46,30 @@ public class CSVCalc : MonoBehaviour
     void Start()
     {
         ReadCSV();
-        PopulateConversion();
-
-        //if((answerText.text == 'Yes' && swipe == right) || (answerText.text == 'No' && swipe == left))
-        //  then CORRECT
-        //else if ((answerText.text == 'Yes' && swipe == left) || (answerText.text == 'No' && swipe == right))
-        //then WRONG
+        PopulateCalculation();
     }
 
-    void Update()
-    {
-
-
-
-    }
-
-    public void PopulateConversion()
+    public void PopulateCalculation()
     {
         int random = Random.Range(0, 112);
         List<int> numbersUsed = new List<int>();
 
-        if(!numbersUsed.Contains(random))
+        while (numbersUsed.Contains(random))
         {
-            question1Text = question1Object.GetComponent<TextMeshProUGUI>();
-            question2Text = question2Object.GetComponent<TextMeshProUGUI>();
-            question3Text = question3Object.GetComponent<TextMeshProUGUI>();
-
-            question1Text.text = myQList.question[random].question1;
-            question2Text.text = myQList.question[random].question2;
-            question3Text.text = myQList.question[random].question3;
-
-            answerText.text = myQList.question[random].answers;
-
-            numbersUsed.Add(random);
+            random = Random.Range(0, 112);
         }
+
+        question1Text = question1Object.GetComponent<TextMeshProUGUI>();
+        question2Text = question2Object.GetComponent<TextMeshProUGUI>();
+        question3Text = question3Object.GetComponent<TextMeshProUGUI>();
+
+        question1Text.text = myQList.question[random].question1;
+        question2Text.text = myQList.question[random].question2;
+        question3Text.text = myQList.question[random].question3;
+
+        answerText = myQList.question[random].answers;
+
+        numbersUsed.Add(random);
     }
 
     void ReadCSV()
