@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     public partial class PagedRect
     {
         private void InitializePaginationIcons()
-        {
+        {            
             var buttonTemplates = new List<PaginationButton>
             {
                 ButtonTemplate_CurrentPage,
@@ -28,16 +29,16 @@ namespace UI.Pagination
                     layoutGroup.childAlignment = TextAnchor.MiddleCenter;
 
 #if UNITY_5_6_OR_NEWER
-                    layoutGroup.childControlHeight = true;
-                    layoutGroup.childControlWidth = true;
+                layoutGroup.childControlHeight = true;
+                layoutGroup.childControlWidth = true;
 #endif
                 }
 
-                var layoutElement = template.gameObject.GetComponent<LayoutElement>();
-                if (layoutElement.flexibleWidth == -1) layoutElement.flexibleWidth = 0;
+                var layoutElement = template.gameObject.GetComponent<LayoutElement>();                
+                if(layoutElement.flexibleWidth == -1) layoutElement.flexibleWidth = 0;
 
                 if (template.Icon == null)
-                {
+                {                    
                     var iconGO = new GameObject("Icon", typeof(RectTransform), typeof(Image));
                     iconGO.transform.SetParent(template.transform);
                     iconGO.transform.SetAsFirstSibling();

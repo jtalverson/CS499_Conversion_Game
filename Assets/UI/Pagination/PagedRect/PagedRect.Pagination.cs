@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     public partial class PagedRect
     {
@@ -236,7 +237,7 @@ namespace UI.Pagination
 
             paginationButtons.ForEach(pb =>
             {
-                if (Application.isPlaying)
+                if(Application.isPlaying)
                 {
                     Destroy(pb.gameObject);
                 }
@@ -277,7 +278,7 @@ namespace UI.Pagination
 
                 button = Instantiate(template) as PaginationButton;
 
-                if (Application.isPlaying) buttonPool[buttonType].Add(button);
+                if(Application.isPlaying) buttonPool[buttonType].Add(button);
             }
 
             return button;

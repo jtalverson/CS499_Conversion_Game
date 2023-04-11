@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     [ExecuteInEditMode]
     public class Viewport : MonoBehaviour
@@ -13,10 +16,10 @@ namespace UI.Pagination
         }
 
         void OnRectTransformDimensionsChange()
-        {
-            if (_pagedRect == null) return;
+        {            
+            if (_pagedRect == null) return;            
 
             _pagedRect.ViewportDimensionsChanged();
-        }
+        } 
     }
 }

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System;
 using System.Collections;
 using System.IO;
-using UnityEditor;
 using TMPro;
-using UI.Pagination;
+using ExternalUI.Pagination;
 
 public class HiScorePageController : MonoBehaviour
 {

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 #endif
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     /// <summary>
     /// Contains utility functions used to, for example, add prefabs to a scene

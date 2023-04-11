@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UI.Pagination;
+using ExternalUI.Pagination;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour

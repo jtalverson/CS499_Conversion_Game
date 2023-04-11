@@ -729,6 +729,11 @@ namespace Unity.VisualScripting.Generated.Aot
 	// UnityEngine.CharacterJoint.op_Equality
 	// UnityEngine.CharacterJoint.op_Inequality
 =======
+<<<<<<< HEAD
+	// UnityEngine.CharacterJoint.op_Implicit
+	// UnityEngine.CharacterJoint.op_Equality
+	// UnityEngine.CharacterJoint.op_Inequality
+=======
 >>>>>>> 14d8839e523b64b61a8f41479d6d8f9b81067796
 >>>>>>> 6500cf9759617cf78e5edcfc2fdcb2bdf7ce0e40
 	// UnityEngine.ConfigurableJoint.op_Implicit

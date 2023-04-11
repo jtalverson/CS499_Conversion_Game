@@ -10,7 +10,6 @@ public class ScoringSystem : MonoBehaviour
     public float bestStreak;
     public float multiplier;
     public float multiplierIncrease = 0.2f;
-    public float baseScore = 100000.0f;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI streakText;
@@ -33,11 +32,10 @@ public class ScoringSystem : MonoBehaviour
     */
     public void ScoreUpdate(float timeRemaining, bool correct)
     {
-        float inverseTimeLeft = baseScore - timeRemaining; // ASSUME startTime - currentTime > 0
         if (correct == true) // add to score
         {
             multiplier += multiplierIncrease;
-            score += inverseTimeLeft;
+            score += timeRemaining;
             score *= multiplier;
             score = Mathf.Round(score);
             currentStreak += 1;

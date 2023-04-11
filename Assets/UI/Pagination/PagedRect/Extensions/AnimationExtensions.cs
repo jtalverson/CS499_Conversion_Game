@@ -6,7 +6,7 @@
 using System;
 using UnityEngine;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     public static class PagedRectAnimationExtensions
     {
