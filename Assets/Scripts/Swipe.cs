@@ -67,7 +67,8 @@ public class Swipe : MonoBehaviour
     }
 
     private void OnEnable()
-    {
+    { 
+        //when a card is presented say the timer is started and start the countdown
         if (startTimer)
         {
             controller.timer.timerIsRunning = true;
@@ -77,6 +78,7 @@ public class Swipe : MonoBehaviour
 
     private void OnDisable()
     {
+        //if a card is swipped or swipe is disabled the timer is stopped
         if (!startTimer)
             startTimer = true;
         controller.timer.timerIsRunning = false;
@@ -207,6 +209,7 @@ public class Swipe : MonoBehaviour
             if (currentAnswer[0] == 'Y')
             {
                 controller.Populate(true);
+                //Since answer was correct the time remaining is sent to the scoring system to calculate the final score
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
                 Debug.Log("right answer");
             }
@@ -229,6 +232,7 @@ public class Swipe : MonoBehaviour
             if (currentAnswer[0] == 'N')
             {
                 controller.Populate(true);
+                //Since answer was correct the time remaining is sent to the scoring system to calculate the final score
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
                 Debug.Log("right answer");
             }
@@ -239,7 +243,7 @@ public class Swipe : MonoBehaviour
                 Debug.Log("wrong answer");
             }
         }
-
+        //reset the timer as well as the slider to the max value
         controller.timer.timeRemaining = controller.timer.maxTime;
         controller.timer.UpdateSlider();
 
@@ -274,6 +278,7 @@ public class Swipe : MonoBehaviour
         if (currentAnswer[0] == 'Y')
         {
             controller.Populate(true);
+            //Since answer was correct the time remaining is sent to the scoring system to calculate the final score
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
         }
@@ -283,7 +288,7 @@ public class Swipe : MonoBehaviour
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
         }
-
+         //reset the timer as well as the slider to the max value
         controller.timer.timeRemaining = controller.timer.maxTime;
         controller.timer.UpdateSlider();
 
@@ -316,6 +321,7 @@ public class Swipe : MonoBehaviour
         if (currentAnswer[0] == 'N')
         {
             controller.Populate(true);
+            //Since answer was correct the time remaining is sent to the scoring system to calculate the final score
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
         }
@@ -325,7 +331,7 @@ public class Swipe : MonoBehaviour
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
         }
-
+         //reset the timer as well as the slider to the max value
         controller.timer.timeRemaining = controller.timer.maxTime;
         controller.timer.UpdateSlider();
 
@@ -346,7 +352,7 @@ public class Swipe : MonoBehaviour
 
         controller.Populate(false);
         controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
-
+         //reset the timer as well as the slider to the max value
         controller.timer.timeRemaining = controller.timer.maxTime;
         controller.timer.UpdateSlider();
 
