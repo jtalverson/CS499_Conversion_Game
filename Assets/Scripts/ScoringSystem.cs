@@ -39,7 +39,7 @@ public class ScoringSystem : MonoBehaviour
             multiplier += multiplierIncrease;
             score += inverseTimeLeft;
             score *= multiplier;
-            Mathf.Round(score);
+            score = Mathf.Round(score);
             currentStreak += 1;
             scoreText.text = score.ToString();
         }
