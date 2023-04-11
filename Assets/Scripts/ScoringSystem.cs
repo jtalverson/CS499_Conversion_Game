@@ -35,14 +35,8 @@ public class ScoringSystem : MonoBehaviour
         if (correct == true) // increase multiplier and streak, add to overall score
         {
             multiplier += multiplierIncrease;
-<<<<<<< HEAD
-            score += timeRemaining;
-            score *= multiplier;
-            score = Mathf.Round(score);
-=======
             score += (timeRemaining * baseMultiplier * multiplier);
             Mathf.Round(score);
->>>>>>> 8d0ff50d1e18882e98deb181c9569bc1bb37bd19
             currentStreak += 1;
             scoreText.text = score.ToString();
         }
