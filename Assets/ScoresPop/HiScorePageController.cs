@@ -54,62 +54,47 @@ public class HiScorePageController : MonoBehaviour
     public void ReadData()
     {
         Debug.Log("reading data");
-        data = allData.text.Split(new string[] { "\n" }, StringSplitOptions.None);
-        //StripLastChar(data);
-        int index = 0;
+        
 
-        while (index < data.Length && data[index] != "") // Loads all time high scores
+        for (int i = 0; i < PlayerPrefs.GetInt("num_overalls"); i++)
         {
-            string[] currentData = data[index].Split(new string[] { "," }, StringSplitOptions.None);
             OverallHighScore currentHighScore = new();
-            currentHighScore.difficulty = currentData[0];
-            currentHighScore.score = currentData[1];
-            currentHighScore.streak = currentData[2];
+            currentHighScore.difficulty = PlayerPrefs.GetString(
+                String.Format("overall_{0}_difficulty", i));
+            currentHighScore.score = PlayerPrefs.GetString(
+                String.Format("overall_{0}_score", i));
+            currentHighScore.streak = PlayerPrefs.GetString(
+                String.Format("overall_{0}_streak", i));
             overallHighScores.Add(currentHighScore);
-            //Debug.Log(data[index]);
-            index += 1;
-        }
-        index += 1;
-        while (index < data.Length) // Loads all time high scores
-        {
-            int moveIndex = 2;
-            DailyHighScore currentDailyScore = new();
-            currentDailyScore.date = data[index];
-            for (int i = 1; i <= 3; i++)
-            {
-                if (index + i >= data.Length)
-                    break;
-                //Debug.Log(data[index + i]);
-                string[] currentData = data[index + i].Split(new string[] { "," }, StringSplitOptions.None);
-                if (currentData[0] == "easy")
-                {
-                    currentDailyScore.easy.difficulty = currentData[0];
-                    currentDailyScore.easy.score = currentData[1];
-                    currentDailyScore.easy.streak = currentData[2];
-                    moveIndex += 1;
-                }
-                else if (currentData[0] == "normal")
-                {
-                    currentDailyScore.normal.difficulty = currentData[0];
-                    currentDailyScore.normal.score = currentData[1];
-                    currentDailyScore.normal.streak = currentData[2];
-                    moveIndex += 1;
-                }
-                else if (currentData[0] == "hard")
-                {
-                    currentDailyScore.hard.difficulty = currentData[0];
-                    currentDailyScore.hard.score = currentData[1];
-                    currentDailyScore.hard.streak = currentData[2];
-                    moveIndex += 1;
-                }
-            }
-            dailyHighScores.Add(currentDailyScore);
-            //Debug.Log(data[index]);
-            index += moveIndex;
         }
 
-        /*DateTime dt = DateTime.Now;
-        Debug.Log(dt.Date.ToShortDateString());*/
+        for (int i = 0; i < PlayerPrefs.GetInt("num_dailies"); i++)
+        {
+            DailyHighScore currentDailyScore = new();
+            currentDailyScore.date = PlayerPrefs.GetString(
+                String.Format("daily_{0}_datetime", i));
+
+            currentDailyScore.easy.difficulty = "easy";
+            currentDailyScore.easy.score = PlayerPrefs.GetString(
+                String.Format("daily_{0}_easy_score", i));
+            currentDailyScore.easy.streak = PlayerPrefs.GetString(
+                String.Format("daily_{0}_easy_streak", i));
+
+
+            currentDailyScore.normal.difficulty = "normal";
+            currentDailyScore.normal.score = PlayerPrefs.GetString(
+                String.Format("daily_{0}_normal_score", i));
+            currentDailyScore.normal.streak = PlayerPrefs.GetString(
+                String.Format("daily_{0}_normal_streak", i));
+
+
+            currentDailyScore.hard.difficulty = "hard";
+            currentDailyScore.hard.score = PlayerPrefs.GetString(
+                String.Format("daily_{0}_hard_score", i));
+            currentDailyScore.hard.streak = PlayerPrefs.GetString(
+                String.Format("daily_{0}_hard_streak", i));
+            dailyHighScores.Add(currentDailyScore);
+        }
     }
 
     public void StripLastChar(string[] array)
@@ -120,32 +105,30 @@ public class HiScorePageController : MonoBehaviour
 
     public void WriteData()
     {
-        string toWrite = "";
         if (overallHighScores.Count > 0 || dailyHighScores.Count > 0)
         {
+            PlayerPrefs.SetInt("num_overalls", overallHighScores.Count);
             for (int i = 0; i < overallHighScores.Count; i++)
             {
-                toWrite += overallHighScores[i].difficulty + "," + overallHighScores[i].score + "," + overallHighScores[i].streak + "\n";
+                PlayerPrefs.SetString(String.Format("overall_{0}_difficulty", i), overallHighScores[i].difficulty);
+                PlayerPrefs.SetString(String.Format("overall_{0}_score", i), overallHighScores[i].score);
+                PlayerPrefs.SetString(String.Format("overall_{0}_streak", i), overallHighScores[i].streak);
             }
-            toWrite += "\n";
             int stoppingPoint = Mathf.Min(dailyHighScores.Count, 5);
+            PlayerPrefs.SetInt("num_dailies", stoppingPoint);
             for (int i = 0; i < stoppingPoint; i++)
             {
-                toWrite += dailyHighScores[i].date + "\n";
-                if (dailyHighScores[i].easy.difficulty != "")
-                    toWrite += dailyHighScores[i].easy.difficulty + "," + dailyHighScores[i].easy.score + "," + dailyHighScores[i].easy.streak + "\n";
-                if (dailyHighScores[i].normal.difficulty != "")
-                    toWrite += dailyHighScores[i].normal.difficulty + "," + dailyHighScores[i].normal.score + "," + dailyHighScores[i].normal.streak + "\n";
-                if (dailyHighScores[i].hard.difficulty != "")
-                    toWrite += dailyHighScores[i].hard.difficulty + "," + dailyHighScores[i].hard.score + "," + dailyHighScores[i].hard.streak + "\n";
-                if (i + 1 != stoppingPoint)
-                    toWrite += "\n";
+                PlayerPrefs.SetString(String.Format("daily_{0}_datetime", i), dailyHighScores[i].date);
+                PlayerPrefs.SetString(String.Format("daily_{0}_easy_score", i), dailyHighScores[i].easy.score);
+                PlayerPrefs.SetString(String.Format("daily_{0}_easy_streak", i), dailyHighScores[i].easy.streak);
+                PlayerPrefs.SetString(String.Format("daily_{0}_normal_score", i), dailyHighScores[i].normal.score);
+                PlayerPrefs.SetString(String.Format("daily_{0}_normal_streak", i), dailyHighScores[i].normal.streak);
+                PlayerPrefs.SetString(String.Format("daily_{0}_hard_score", i), dailyHighScores[i].hard.score);
+                PlayerPrefs.SetString(String.Format("daily_{0}_hard_streak", i), dailyHighScores[i].hard.streak);
             }
         }
-        Debug.Log(toWrite);
-        File.WriteAllText(AssetDatabase.GetAssetPath(allData), toWrite);
+        PlayerPrefs.Save();
     }
-
     public IEnumerator PopulateData()
     {
         foreach (Transform t in pageParent.GetComponentsInChildren<Transform>())
