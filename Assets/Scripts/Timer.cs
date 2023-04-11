@@ -12,13 +12,16 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
+        //checks if the timer is running
         if (timerIsRunning)
         {
+            //if the value is bigger than zero the timer counts down and updates the slider
             if (timeRemaining > 0)
             {
                 timeRemaining -= Time.deltaTime;
                 UpdateSlider();
             }
+            //else the timer is stopped and tells the program its at zero
             else
             {
                 Debug.Log("Time has run out!");
@@ -27,7 +30,7 @@ public class Timer : MonoBehaviour
             }
         }
     }
-
+    //updates slider forst sets the max value to the max time then sets the slider value to the time left
     public void UpdateSlider()
     {
         timeSlider.maxValue = maxTime;
