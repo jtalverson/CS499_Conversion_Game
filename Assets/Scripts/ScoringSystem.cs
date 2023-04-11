@@ -36,7 +36,7 @@ public class ScoringSystem : MonoBehaviour
         {
             multiplier += multiplierIncrease;
             score += (timeRemaining * baseMultiplier * multiplier);
-            Mathf.Round(score);
+            score = Mathf.Round(score);
             currentStreak += 1;
             scoreText.text = score.ToString();
         }
