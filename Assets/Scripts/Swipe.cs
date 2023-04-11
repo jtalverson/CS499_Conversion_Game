@@ -204,7 +204,7 @@ public class Swipe : MonoBehaviour
                 transform.position += new Vector3(xStepSize, 0f, 0f);
                 yield return new WaitForSeconds(xTimeGap);
             }
-            if (currentAnswer == "Yes")
+            if (currentAnswer[0] == 'Y')
             {
                 controller.Populate(true);
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
@@ -226,7 +226,7 @@ public class Swipe : MonoBehaviour
                 transform.position -= new Vector3(xStepSize, 0f, 0f);
                 yield return new WaitForSeconds(xTimeGap);
             }
-            if (currentAnswer == "No")
+            if (currentAnswer[0] == 'N')
             {
                 controller.Populate(true);
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
@@ -271,7 +271,7 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(buttonTimeGap);
         }
 
-        if (currentAnswer == "Yes")
+        if (currentAnswer[0] == 'Y')
         {
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
@@ -313,7 +313,7 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(buttonTimeGap);
         }
 
-        if (currentAnswer == "No")
+        if (currentAnswer[0] == 'N')
         {
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
