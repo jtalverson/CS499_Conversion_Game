@@ -441,7 +441,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 81.925476, y: 0}
+  m_AnchoredPosition: {x: 81.92546, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80267519
@@ -6513,6 +6513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dailyScoreParent: {fileID: 2025113860}
   overallScoreParent: {fileID: 1906700238}
+  pageParent: {fileID: 2025113860}
   pageController: {fileID: 1438807574}
   controller: {fileID: 1170799288}
   allData: {fileID: 4900000, guid: 23dbbcb0af359674fbe2a2f1384a8388, type: 3}

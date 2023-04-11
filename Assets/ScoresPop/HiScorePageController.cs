@@ -11,6 +11,7 @@ public class HiScorePageController : MonoBehaviour
 {
     public GameObject dailyScoreParent;
     public GameObject overallScoreParent;
+    public GameObject pageParent;
     public PagedRect pageController;
 
     public GameController controller;
@@ -146,6 +147,11 @@ public class HiScorePageController : MonoBehaviour
 
     public IEnumerator PopulateData()
     {
+        foreach (Transform t in pageParent.GetComponentsInChildren<Transform>())
+            if (t.name.Contains("Page"))
+                t.gameObject.SetActive(false);
+        pageController.UpdatePagination();
+
         //Daily high scores
         for (int i = 0; i < dailyHighScores.Count; i++)
         {
@@ -272,9 +278,78 @@ public class HiScorePageController : MonoBehaviour
                 newDaily.hard.score = controller.scoringSystem.score.ToString();
                 newDaily.hard.streak = controller.scoringSystem.bestStreak.ToString();
             }
-            dailyHighScores.Insert(0, newDaily);
+            dailyHighScores.Add(newDaily);
         }
         // Update overall scores
+        if (controller.diffString == "easy")
+        {
+            int index = -1;
+            for (int i = 0; i < overallHighScores.Count; i++)
+                if (overallHighScores[i].difficulty == "easy")
+                    index = i;
+
+            if (index != -1)
+            {
+                if (controller.scoringSystem.score > float.Parse(overallHighScores[index].score))
+                    overallHighScores[index].score = controller.scoringSystem.score.ToString();
+                if (controller.scoringSystem.bestStreak > float.Parse(overallHighScores[index].streak))
+                    overallHighScores[index].streak = controller.scoringSystem.bestStreak.ToString();
+            }
+            else
+            {
+                OverallHighScore newHighScore = new();
+                newHighScore.difficulty = "easy";
+                newHighScore.score = controller.scoringSystem.score.ToString();
+                newHighScore.streak = controller.scoringSystem.bestStreak.ToString();
+                overallHighScores.Add(newHighScore);
+            }
+        }
+        if (controller.diffString == "normal")
+        {
+            int index = -1;
+            for (int i = 0; i < overallHighScores.Count; i++)
+                if (overallHighScores[i].difficulty == "normal")
+                    index = i;
+
+            if (index != -1)
+            {
+                if (controller.scoringSystem.score > float.Parse(overallHighScores[index].score))
+                    overallHighScores[index].score = controller.scoringSystem.score.ToString();
+                if (controller.scoringSystem.bestStreak > float.Parse(overallHighScores[index].streak))
+                    overallHighScores[index].streak = controller.scoringSystem.bestStreak.ToString();
+            }
+            else
+            {
+                OverallHighScore newHighScore = new();
+                newHighScore.difficulty = "normal";
+                newHighScore.score = controller.scoringSystem.score.ToString();
+                newHighScore.streak = controller.scoringSystem.bestStreak.ToString();
+                overallHighScores.Insert(0, newHighScore);
+            }
+        }
+        if (controller.diffString == "hard")
+        {
+            int index = -1;
+            for (int i = 0; i < overallHighScores.Count; i++)
+                if (overallHighScores[i].difficulty == "hard")
+                    index = i;
+
+            if (index != -1)
+            {
+                if (controller.scoringSystem.score > float.Parse(overallHighScores[index].score))
+                    overallHighScores[index].score = controller.scoringSystem.score.ToString();
+                if (controller.scoringSystem.bestStreak > float.Parse(overallHighScores[index].streak))
+                    overallHighScores[index].streak = controller.scoringSystem.bestStreak.ToString();
+            }
+            else
+            {
+                OverallHighScore newHighScore = new();
+                newHighScore.difficulty = "hard";
+                newHighScore.score = controller.scoringSystem.score.ToString();
+                newHighScore.streak = controller.scoringSystem.bestStreak.ToString();
+                overallHighScores.Add(newHighScore);
+            }
+        }
 
         WriteData();
     }
