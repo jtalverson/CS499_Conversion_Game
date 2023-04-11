@@ -68,6 +68,7 @@ public class Swipe : MonoBehaviour
 
     private void OnEnable()
     {
+        canSwipe = true;
         if (startTimer)
         {
             controller.timer.timerIsRunning = true;
@@ -77,6 +78,7 @@ public class Swipe : MonoBehaviour
 
     private void OnDisable()
     {
+        canSwipe = false;
         if (!startTimer)
             startTimer = true;
         controller.timer.timerIsRunning = false;
