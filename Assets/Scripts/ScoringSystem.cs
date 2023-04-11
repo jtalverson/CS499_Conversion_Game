@@ -10,6 +10,7 @@ public class ScoringSystem : MonoBehaviour
     public float bestStreak;
     public float multiplier;
     public float multiplierIncrease = 0.2f;
+    public float baseMultiplier = 1.0f;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI streakText;
@@ -25,23 +26,21 @@ public class ScoringSystem : MonoBehaviour
         streakText.text = bestStreak.ToString();
     }
 
-    /* Update is called after every swipe
-     * startTime - the time on the timer when the problem is first shown
-     * currentTime - the time left on the timer when the problem is answered
+    /* ScoreUpdate is called after every swipe
+     * timeRemaining - how much time is left when the player answered 
      * correct - if the question was scored correctly or not
     */
     public void ScoreUpdate(float timeRemaining, bool correct)
     {
-        if (correct == true) // add to score
+        if (correct == true) // increase multiplier and streak, add to overall score
         {
             multiplier += multiplierIncrease;
-            score += timeRemaining;
-            score *= multiplier;
+            score += (timeRemaining * baseMultiplier * multiplier);
             Mathf.Round(score);
             currentStreak += 1;
             scoreText.text = score.ToString();
         }
-        else // add no points, reset multiplier
+        else // add no points, reset multiplier and streak
         {
             multiplier = 1.0f;
             currentStreak = 0.0f;
