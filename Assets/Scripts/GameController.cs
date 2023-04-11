@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour
         scoringSystem.ResetScoring();
         diffIndex = diffScroller.GetCurrentPage().PageNumber - 1;
         currentDifficulty = difficulties.config.populateData[diffIndex];
+        //Based on difficulty selected by user the start value for the timer is assigned
         if (diffIndex == 0)
             diffString = "easy";
         if (diffIndex == 1)
@@ -67,7 +68,7 @@ public class GameController : MonoBehaviour
         bool usedAllStrikes = counter.StrikeLimit == currentDifficulty.StrikeLimit;
         bool conversionDone = counter.ConversionCount == currentDifficulty.ConversionCount;
         bool calculationDone = counter.CalculationCount == currentDifficulty.CalculationCount;
-
+        //set the timers max
         if (conversionDone)
             timer.maxTime = currentDifficulty.TimePerCalculation;
 
