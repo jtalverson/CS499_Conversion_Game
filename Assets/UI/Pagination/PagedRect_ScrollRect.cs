@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     [ExecuteInEditMode]
     public class PagedRect_ScrollRect : ScrollRect

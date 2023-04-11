@@ -1,10 +1,11 @@
+using UnityEngine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using System.Globalization;
+using System.Collections.Generic;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     internal class DelayedEditorAction
     {

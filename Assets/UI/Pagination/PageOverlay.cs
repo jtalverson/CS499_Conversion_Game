@@ -1,12 +1,15 @@
+using System;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-namespace UI.Pagination
-{
+namespace ExternalUI.Pagination
+{    
     public class PageOverlay : MonoBehaviour
     {
         protected Page m_page;
-        protected PagedRect m_pagedRect;
+        protected PagedRect m_pagedRect;             
 
         private Image m_Image;
         public Image Image
@@ -22,7 +25,7 @@ namespace UI.Pagination
         public void Initialise(Page page, PagedRect pagedRect)
         {
             m_page = page;
-            m_pagedRect = pagedRect;
+            m_pagedRect = pagedRect;            
 
             var rectTransform = this.transform as RectTransform;
 
@@ -51,7 +54,7 @@ namespace UI.Pagination
 
         void OnEnable()
         {
-            if (m_pagedRect != null) Image.color = m_pagedRect.PagePreviewOverlayNormalColor;
+            if(m_pagedRect != null) Image.color = m_pagedRect.PagePreviewOverlayNormalColor;
         }
 
         void OnDisable()

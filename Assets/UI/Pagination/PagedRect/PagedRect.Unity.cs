@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     public partial class PagedRect
     {

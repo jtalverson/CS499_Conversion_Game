@@ -1,7 +1,13 @@
-namespace UI.Pagination
-{
+using System;
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+namespace ExternalUI.Pagination
+{    
     public partial class PagedRect_LayoutGroup
-    {
+    {                
         /*void RecalculateDimensions()
         {
             float totalSize = 0f;
