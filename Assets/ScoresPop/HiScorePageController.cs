@@ -53,6 +53,7 @@ public class HiScorePageController : MonoBehaviour
 
     public void ReadData()
     {
+        Debug.Log("reading data");
         data = allData.text.Split(new string[] { "\n" }, StringSplitOptions.None);
         //StripLastChar(data);
         int index = 0;
@@ -229,7 +230,7 @@ public class HiScorePageController : MonoBehaviour
     public void UpdateLists()
     {
         // Update today's data
-        if (dailyHighScores[0].date == DateTime.Now.Date.ToShortDateString())
+        if (dailyHighScores.Count > 0 && dailyHighScores[0].date == DateTime.Now.Date.ToShortDateString())
         {
             if (controller.diffString == "easy")
             {
