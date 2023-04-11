@@ -229,7 +229,7 @@ public class HiScorePageController : MonoBehaviour
     public void UpdateLists()
     {
         // Update today's data
-        if (dailyHighScores[0].date == DateTime.Now.Date.ToShortDateString())
+        if (dailyHighScores.Count > 0 && dailyHighScores[0].date == DateTime.Now.Date.ToShortDateString())
         {
             if (controller.diffString == "easy")
             {
