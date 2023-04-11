@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public int diffIndex = -1;
     public PopulateDiff.Difficulty currentDifficulty;
     public PopulateDiff.Difficulty counter;
+    public string diffString;
 
     public StrikeController strikeController;
     public GameStateController stateController;
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour
     public Timer timer;
 
     public ScoringSystem scoringSystem;
+
+    public HiScorePageController pageController;
 
     // Start is called before the first frame update
     private void Start()
@@ -42,8 +45,15 @@ public class GameController : MonoBehaviour
         scoringSystem.ResetScoring();
         diffIndex = diffScroller.GetCurrentPage().PageNumber - 1;
         currentDifficulty = difficulties.config.populateData[diffIndex];
+        if (diffIndex == 0)
+            diffString = "easy";
+        if (diffIndex == 1)
+            diffString = "normal";
+        if (diffIndex == 2)
+            diffString = "hard";
         timer.maxTime = currentDifficulty.TimePerConversion;
         timer.timeRemaining = timer.maxTime;
+        timer.timerIsRunning = true;
     }    
 
     public void Populate(bool questionRight)
@@ -77,12 +87,14 @@ public class GameController : MonoBehaviour
         {
             // Game Over WIN
             Debug.Log("You WON!");
+            pageController.UpdateLists();
             stateController.Set_GameEnded(true, true);
         }
         else
         {
             // Game Over LOST
             Debug.Log("You lost...");
+            pageController.UpdateLists();
             stateController.Set_GameEnded(true, false);
         }
     }
