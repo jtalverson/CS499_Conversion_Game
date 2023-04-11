@@ -1,4 +1,10 @@
-namespace UI.Pagination
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+namespace ExternalUI.Pagination
 {
     public partial class PagedRect
     {
@@ -10,6 +16,6 @@ namespace UI.Pagination
         protected void ClearHighlight()
         {
             imageComponent.color = NormalColor;
-        }
+        } 
     }
 }

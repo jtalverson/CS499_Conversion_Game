@@ -12,14 +12,14 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 #endif
 
-namespace UI.Pagination.Examples
+namespace ExternalUI.Pagination.Examples
 {
     /// <summary>
     /// Controller for the Example Scene
     /// </summary>
     class PaginationExampleController : MonoBehaviour
     {
-#pragma warning disable 0649
+        #pragma warning disable 0649
         [Header("Horizontal Example")]
         public PagedRect HorizontalPaginationExample = null;
         public InputField HorizontalAnimationSpeedTextField = null;
@@ -43,7 +43,7 @@ namespace UI.Pagination.Examples
 
         [Header("Character Creation Example")]
         public PagedRect CharacterCreationExample = null;
-        public InputField CharacterCreationNameField = null;
+        public InputField CharacterCreationNameField = null;        
         public List<Button> CharacterCreationClassButtons = null;
         public Color CharacterCreationButtonNormalColor;
         public Color CharacterCreationButtonHighlightedColor;
@@ -52,7 +52,7 @@ namespace UI.Pagination.Examples
 
         public Page CharacterCreation_StatsPage = null;
         public Page CharacterCreation_CreatePage = null;
-
+        
         protected string characterCreation_SelectedClass = null;
 
         [Header("Slider ScrollRect Example")]
@@ -67,26 +67,26 @@ namespace UI.Pagination.Examples
 
         [Header("Tabs Example")]
         public PagedRect TabsHorizontalScrollRectExample = null;
-
+        
         [Header("Theme")]
         public Color ExampleButtonNormalColor;
-        public Color ExampleButtonHighlightedColor;
+        public Color ExampleButtonHighlightedColor;                
 
         [Header("Controls")]
         public List<Button> ControlButtons = null;
 
-        private List<PagedRect> examples = new List<PagedRect>();
-#pragma warning restore 0649
+        private List<PagedRect> examples = new List<PagedRect>();        
+        #pragma warning restore 0649
 
         void Start()
-        {
+        {            
             // collection for convenience when switching examples
-            examples = new PagedRect[]
-            {
-                HorizontalPaginationExample,
-                VerticalPaginationExample,
-                DynamicPagesExample,
-                SliderExample,
+            examples = new PagedRect[] 
+            { 
+                HorizontalPaginationExample, 
+                VerticalPaginationExample, 
+                DynamicPagesExample, 
+                SliderExample, 
                 CharacterCreationExample,
                 SliderScrollRectExample,
                 PagePreviewsHorizontalExample,
@@ -94,15 +94,15 @@ namespace UI.Pagination.Examples
                 NestedScrollRectExample,
                 TabsHorizontalScrollRectExample
             }
-            .Where(e => e != null).ToList();
+            .Where(e => e != null).ToList();            
         }
-
+        
         /// <summary>
         /// Reloads the current scene
         /// </summary>
         public void ResetExample()
-        {
-#if !PRE_UNITY_5_3
+        {   
+#if !PRE_UNITY_5_3         
             // For Unity 5.3 and above:
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 #else
@@ -205,7 +205,7 @@ namespace UI.Pagination.Examples
         {
             HorizontalDelayTextField.text = delay.ToString() + "s";
         }
-
+                
         public void SetHorizontalMaximumNumberOfButtonsToShowText(float maxNumber)
         {
             HorizontalMaximumNumberOfButtonsToShowField.text = maxNumber.ToString();
@@ -217,7 +217,7 @@ namespace UI.Pagination.Examples
         {
             VerticalAnimationSpeedTextField.text = animationSpeed.ToString();
         }
-
+        
         public void HighlightVerticalAnimationTypeButton(Button selectedButton)
         {
             VerticalAnimationTypeButtons.ForEach(b =>
@@ -252,7 +252,7 @@ namespace UI.Pagination.Examples
         {
             var page = DynamicPagesExample.AddPageUsingTemplate();
             page.PageTitle = "Page " + DynamicPagesExample.NumberOfPages;
-
+            
             // Calling UpdatePagination so as to update the PageTitle value
             DynamicPagesExample.UpdatePagination();
 
@@ -270,7 +270,7 @@ namespace UI.Pagination.Examples
         public void DynamicPageExample_RemoveLastPage()
         {
             var lastPage = DynamicPagesExample.Pages.LastOrDefault(l => l.PageTitle != "Main Page");
-
+                        
             if (lastPage != null)
             {
                 DynamicPagesExample.RemovePage(lastPage, true);
@@ -308,12 +308,12 @@ namespace UI.Pagination.Examples
         #region Character Creation Example
         public void CharacterCreation_CheckIfStatsPageShouldBeEnabled()
         {
-            bool nameSet = !String.IsNullOrEmpty(CharacterCreationNameField.text);
+            bool nameSet = !String.IsNullOrEmpty(CharacterCreationNameField.text);                        
             bool classSet = !String.IsNullOrEmpty(this.characterCreation_SelectedClass);
 
 
             var pageEnabled = CharacterCreation_StatsPage.PageEnabled;
-
+            
             if (nameSet && classSet)
             {
                 CharacterCreation_StatsPage.PageEnabled = true;
@@ -321,7 +321,7 @@ namespace UI.Pagination.Examples
                 // Note: if you want to trigger an event when the "Confirm" button is clicked,
                 // the easiest way to set this up is to add an event handler to the 
                 // 'OnShow' section of the Confirm page
-
+                
                 // As this is an example, we'll stop here                
             }
             else
@@ -334,7 +334,7 @@ namespace UI.Pagination.Examples
             {
                 CharacterCreationExample.UpdatePagination();
             }
-        }
+        }        
 
         public void CharacterCreation_HighlightClassButton(Button selectedButton)
         {
@@ -355,12 +355,12 @@ namespace UI.Pagination.Examples
         }
 
         public void CharacterCreation_SetClass(string _class)
-        {
+        {            
             characterCreation_SelectedClass = _class;
-
-            CharacterCreation_CheckIfStatsPageShouldBeEnabled();
+            
+            CharacterCreation_CheckIfStatsPageShouldBeEnabled();            
         }
-
+        
         public void CharacterCreation_StatsUpdate(Page NewPage, Page OldPage)
         {
             int unallocatedStatPoints = 35; // 5 * 5 + 10            
@@ -375,7 +375,7 @@ namespace UI.Pagination.Examples
             // Disable the pagedrect next buttons if need be
             var disableNextButtons = unallocatedStatPoints > 0;
             CharacterCreation_StatInputList.ForEach(i => i.Button_NextPage.Button.interactable = disableNextButtons);
-
+                        
             CharacterCreation_UnallocatedStatPointsInput.text = unallocatedStatPoints.ToString();
 
             var oldValue = CharacterCreation_CreatePage.PageEnabled;

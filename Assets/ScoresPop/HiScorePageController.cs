@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System;
 using System.Collections;
 using System.IO;
-using UnityEditor;
 using TMPro;
-using UI.Pagination;
+using ExternalUI.Pagination;
 
 public class HiScorePageController : MonoBehaviour
 {
@@ -53,6 +53,7 @@ public class HiScorePageController : MonoBehaviour
 
     public void ReadData()
     {
+        Debug.Log("reading data");
         data = allData.text.Split(new string[] { "\n" }, StringSplitOptions.None);
         //StripLastChar(data);
         int index = 0;

@@ -1,9 +1,10 @@
 using System;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     /// <summary>
     /// An individual page within a PagedRect.
@@ -480,7 +481,7 @@ namespace UI.Pagination
         [UnityEditor.MenuItem("GameObject/UI/Pagination/Page")]
         static void AddPagePrefab()
         {
-            var page = PaginationUtilities.InstantiatePrefab("Page", typeof(UI.Pagination.Viewport));
+            var page = PaginationUtilities.InstantiatePrefab("Page", typeof(ExternalUI.Pagination.Viewport));
 
             if (page != null)
             {

@@ -1,6 +1,11 @@
+using UnityEngine;
 using UnityEditor;
+using System.Collections;
+using System.Linq;
+using System.Reflection;
+using System;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     [CustomEditor(typeof(PagedRect_ScrollRect))]
     public partial class PagedRect_ScrollRectEditor : Editor
@@ -10,8 +15,8 @@ namespace UI.Pagination
 
         public void OnEnable()
         {
-            //  so = new SerializedObject(target);
-            //  DisableDragging = so.FindProperty("DisableDragging");
+          //  so = new SerializedObject(target);
+          //  DisableDragging = so.FindProperty("DisableDragging");
         }
 
         public override void OnInspectorGUI()
@@ -21,6 +26,6 @@ namespace UI.Pagination
             EditorGUILayout.Space();
 
             //EditorGUILayout.PropertyField(DisableDragging);
-        }
+        }        
     }
 }

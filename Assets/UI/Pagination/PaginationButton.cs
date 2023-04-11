@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Pagination
+namespace ExternalUI.Pagination
 {
     public class PaginationButton : MonoBehaviour
     {
