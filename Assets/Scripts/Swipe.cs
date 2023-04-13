@@ -52,6 +52,8 @@ public class Swipe : MonoBehaviour
     public float rejectTimeGap = .05f;
     private float rejectPosStep;
 
+    public float animationLength = 1;
+
     public string currentAnswer;
     public GameController controller;
 
@@ -59,6 +61,11 @@ public class Swipe : MonoBehaviour
 
     public GameObject pauseMenu;
 
+    public AudioSource SwipeNoiseSource;
+    public AudioClip SwipeNoiseClip;
+    public AudioClip RightNoiseClip;
+    public AudioClip WrongNoiseClip;
+    public GameObject GameBackground;
     private void Start()
     {
         startPosition = transform.position;
@@ -144,6 +151,7 @@ public class Swipe : MonoBehaviour
                 canSwipe = false;
                 if (Mathf.Abs(distanceMoved) > acceptDistance)
                 {
+                    SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
                     StartCoroutine("AcceptOrReject");
                     Debug.Log("Good swipe");
                 }
@@ -255,6 +263,7 @@ public class Swipe : MonoBehaviour
 
     public void Accept()
     {
+        SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
         controller.timer.timerIsRunning = false;
         Debug.Log(controller.timer.timeRemaining);
 
@@ -266,21 +275,27 @@ public class Swipe : MonoBehaviour
 
     private IEnumerator SlowAccept()
     {
-        while (transform.position.x < finalX)
+        float elapsedTime = 0.0f;
+        while (elapsedTime < animationLength)
         {
-            transform.RotateAround(transform.position, Vector3.forward, buttonRotStep);
-            transform.position += new Vector3(buttonPosStep, 0);
-            yield return new WaitForSeconds(buttonTimeGap);
+            elapsedTime += Time.deltaTime;
+            float lerpedAngle = Mathf.Lerp(0, maxButtonRotation, easeOutCubic(elapsedTime / animationLength));
+            float angleDelta = lerpedAngle - transform.rotation.eulerAngles.z;
+            transform.RotateAround(transform.position, Vector3.forward, angleDelta);
+            transform.position = Vector3.Lerp(startPosition, new Vector3(finalX, transform.position.y), easeOutCubic(elapsedTime / animationLength));
+            yield return null;
         }
 
         if (currentAnswer[0] == 'Y')
         {
+            SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
         }
         else
         {
+            SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
@@ -297,6 +312,7 @@ public class Swipe : MonoBehaviour
 
     public void Reject()
     {
+        SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
         controller.timer.timerIsRunning = false;
         Debug.Log(controller.timer.timeRemaining);
 
@@ -306,23 +322,34 @@ public class Swipe : MonoBehaviour
         StartCoroutine("SlowReject");
     }
 
+    private float easeOutCubic(float x)
+    {
+        return 1 - Mathf.Pow(1 - x, 3);
+    }
+
     private IEnumerator SlowReject()
     {
-        while (transform.position.x > -finalX)
+        float elapsedTime = 0.0f;
+        while (elapsedTime < animationLength)
         {
-            transform.RotateAround(transform.position, Vector3.forward, -buttonRotStep);
-            transform.position -= new Vector3(buttonPosStep, 0);
-            yield return new WaitForSeconds(buttonTimeGap);
+            elapsedTime += Time.deltaTime;
+            float lerpedAngle = Mathf.Lerp(0, -maxButtonRotation, easeOutCubic(elapsedTime / animationLength));
+            float angleDelta = lerpedAngle - transform.rotation.eulerAngles.z;
+            transform.RotateAround(transform.position, Vector3.forward, angleDelta);
+            transform.position = Vector3.Lerp(startPosition, new Vector3(-finalX, transform.position.y), easeOutCubic(elapsedTime / animationLength));
+            yield return null;
         }
 
         if (currentAnswer[0] == 'N')
         {
+            SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
         }
         else
         {
+            SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
