@@ -52,6 +52,9 @@ public class Swipe : MonoBehaviour
     public float rejectTimeGap = .05f;
     private float rejectPosStep;
 
+    [HideInInspector]
+    private Vector3 swipeAcceptedInitialPosition;
+
     public float animationLength = 1;
 
     public string currentAnswer;
@@ -152,6 +155,7 @@ public class Swipe : MonoBehaviour
                 if (Mathf.Abs(distanceMoved) > acceptDistance)
                 {
                     SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
+                    swipeAcceptedInitialPosition = transform.position;
                     StartCoroutine("AcceptOrReject");
                     Debug.Log("Good swipe");
                 }
@@ -208,11 +212,15 @@ public class Swipe : MonoBehaviour
         // Swiped right
         if (distanceMoved > 0)
         {
+            float elapsedTime = 0.0f;
             Debug.Log("Swiped RIGHT");
-            while (transform.position.x < finalX)
+            while (elapsedTime < animationLength)
             {
-                transform.position += new Vector3(xStepSize, 0f, 0f);
-                yield return new WaitForSeconds(xTimeGap);
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector3.Lerp(swipeAcceptedInitialPosition,
+                    new Vector3(finalX, transform.position.y),
+                    easeOutCubic(elapsedTime / animationLength));
+                yield return null;
             }
             if (currentAnswer[0] == 'Y')
             {
@@ -230,11 +238,15 @@ public class Swipe : MonoBehaviour
         // Swiped left
         else
         {
+            float elapsedTime = 0.0f;
             Debug.Log("Swiped LEFT");
-            while (transform.position.x > -1 * finalX)
+            while (elapsedTime < animationLength)
             {
-                transform.position -= new Vector3(xStepSize, 0f, 0f);
-                yield return new WaitForSeconds(xTimeGap);
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector3.Lerp(swipeAcceptedInitialPosition,
+                    new Vector3(-finalX, transform.position.y),
+                    easeOutCubic(elapsedTime / animationLength));
+                yield return null;
             }
             if (currentAnswer[0] == 'N')
             {
