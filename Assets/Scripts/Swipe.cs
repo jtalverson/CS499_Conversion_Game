@@ -62,11 +62,11 @@ public class Swipe : MonoBehaviour
 
     public GameObject pauseMenu;      // Used to determine if swiping is allowed
 
-    public AudioSource SwipeNoiseSource;
-    public AudioClip SwipeNoiseClip;
-    public AudioClip RightNoiseClip;
-    public AudioClip WrongNoiseClip;
-    public GameObject GameBackground;
+    public AudioSource SwipeNoiseSource; // Overall audio source
+    public AudioClip SwipeNoiseClip;     // Swipe sound clip
+    public AudioClip RightNoiseClip;     // Right sound clip
+    public AudioClip WrongNoiseClip;     // Wrong sound clip
+    public GameObject GameBackground;    // Background object
     private void Start()
     {
         startPosition = transform.position;
@@ -183,8 +183,11 @@ public class Swipe : MonoBehaviour
                 // If the distance moved is acceptable
                 if (Mathf.Abs(distanceMoved) > acceptDistance)
                 {
+                    // Play the swipe noise clip
                     SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
+                    // Store the position of the transform at this point
                     swipeAcceptedInitialPosition = transform.position;
+                    // Begin AcceptOrReject coroutine
                     StartCoroutine("AcceptOrReject");
                     Debug.Log("Good swipe");
                 }
@@ -251,14 +254,19 @@ public class Swipe : MonoBehaviour
         // Swiped right
         if (distanceMoved > 0)
         {
+            // Establish elapsed time to zero
             float elapsedTime = 0.0f;
             Debug.Log("Swiped RIGHT");
+            // Iterate while elapsed time is less than animation length
             while (elapsedTime < animationLength)
             {
+                // Update elapsed time
                 elapsedTime += Time.deltaTime;
+                // Linearly interpolate page to desired position
                 transform.position = Vector3.Lerp(swipeAcceptedInitialPosition,
                     new Vector3(finalX, transform.position.y),
                     easeOutCubic(elapsedTime / animationLength));
+                // Pause until next frame
                 yield return null;
             }
             // If the first character of the answer is Y
@@ -268,6 +276,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(true);
                 // Update the score with the time remaining and signal correct answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
+                // Play right noise clip
                 SwipeNoiseSource.PlayOneShot(RightNoiseClip);
                 Debug.Log("right answer");
             }
@@ -278,6 +287,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(false);
                 // Update the score with the time remaining and signal incorrect answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
+                // Play wrong noise clip
                 SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
                 Debug.Log("wrong answer");
             }
@@ -285,14 +295,19 @@ public class Swipe : MonoBehaviour
         // Swiped left
         else
         {
+            // Establish elapsed time to zero
             float elapsedTime = 0.0f;
             Debug.Log("Swiped LEFT");
+            // Iterate while elapsed time is less than animation length
             while (elapsedTime < animationLength)
             {
+                // Update elapsed time
                 elapsedTime += Time.deltaTime;
+                // Linearly interpolate page to desired position
                 transform.position = Vector3.Lerp(swipeAcceptedInitialPosition,
                     new Vector3(-finalX, transform.position.y),
                     easeOutCubic(elapsedTime / animationLength));
+                // Pause until next frame
                 yield return null;
             }
             // If the first character of the answer is N
@@ -302,6 +317,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(true);
                 // Update the score with the time remaining and signal correct answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
+                // Play right noise clip
                 SwipeNoiseSource.PlayOneShot(RightNoiseClip);
                 Debug.Log("right answer");
             }
@@ -311,6 +327,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(false);
                 // Update the score with the time remaining and signal incorrect answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
+                // Play wrong noise clip
                 SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
                 Debug.Log("wrong answer");
             }
@@ -341,14 +358,22 @@ public class Swipe : MonoBehaviour
     // Slowly moves page to the right
     private IEnumerator SlowAccept()
     {
+        // Establish elapsed time to zero
         float elapsedTime = 0.0f;
+        // Iterate while elapsed time is less than animation length
         while (elapsedTime < animationLength)
         {
+            // Update elapsed time
             elapsedTime += Time.deltaTime;
+            // Determine angle to rotate and rotate
             float lerpedAngle = Mathf.Lerp(0, maxButtonRotation, easeOutCubic(elapsedTime / animationLength));
             float angleDelta = lerpedAngle - transform.rotation.eulerAngles.z;
             transform.RotateAround(transform.position, Vector3.forward, angleDelta);
-            transform.position = Vector3.Lerp(startPosition, new Vector3(finalX, transform.position.y), easeOutCubic(elapsedTime / animationLength));
+            // Linearly interpolate page to desired position
+            transform.position = Vector3.Lerp(startPosition, 
+                new Vector3(finalX, transform.position.y), 
+                easeOutCubic(elapsedTime / animationLength));
+            // Pause until next frame
             yield return null;
         }
         // If the answer is correct process it as so
@@ -381,33 +406,43 @@ public class Swipe : MonoBehaviour
     // Run when the accept button is pressed
     public void Reject()
     {
+        // Plays swiping sound
         SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
+        // Stops the timer
         controller.timer.timerIsRunning = false;
-        // Calculates position and step size
         // Starts the SlowAccept coroutine which moves the page slower through the motion
         StartCoroutine("SlowReject");
     }
-
+    // Smooths linear interpolations
     private float easeOutCubic(float x)
     {
         return 1 - Mathf.Pow(1 - x, 3);
     }
-
+    // Slows rejection animation
     private IEnumerator SlowReject()
     {
+        // Establish elapsed time to zero
         float elapsedTime = 0.0f;
+        // Iterate while elapsed time is less than animation length
         while (elapsedTime < animationLength)
         {
+            // Update elapsed time
             elapsedTime += Time.deltaTime;
+            // Determine angle to rotate and rotate
             float lerpedAngle = Mathf.Lerp(0, -maxButtonRotation, easeOutCubic(elapsedTime / animationLength));
             float angleDelta = lerpedAngle - transform.rotation.eulerAngles.z;
             transform.RotateAround(transform.position, Vector3.forward, angleDelta);
-            transform.position = Vector3.Lerp(startPosition, new Vector3(-finalX, transform.position.y), easeOutCubic(elapsedTime / animationLength));
+            // Linearly interpolate page to desired position
+            transform.position = Vector3.Lerp(startPosition, 
+                new Vector3(-finalX, transform.position.y), 
+                easeOutCubic(elapsedTime / animationLength));
+            // Pause until next frame
             yield return null;
         }
         // If the answer is correct process it as so
         if (currentAnswer[0] == 'N')
         {
+            // Play right noise clip
             SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
@@ -416,6 +451,7 @@ public class Swipe : MonoBehaviour
         // Otherwise process it as incorrect
         else
         {
+            // Play wrong noise clip
             SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
@@ -435,6 +471,8 @@ public class Swipe : MonoBehaviour
     // Move the page down and off the screen if the time runs out
     public IEnumerator TimeUp()
     {
+        // Play wrong noise clip
+        SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
         // Calculate step size
         rejectPosStep = Mathf.Abs(transform.position.y - finalY) / rejectSteps;
         // While it is not at the desired position move it down and wait
@@ -443,6 +481,7 @@ public class Swipe : MonoBehaviour
             transform.position -= new Vector3(0, rejectPosStep);
             yield return new WaitForSeconds(rejectTimeGap);
         }
+
         // Populate the new conversions with false
         controller.Populate(false);
         // Call the scoring update with an incorrect answer
