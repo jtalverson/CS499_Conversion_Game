@@ -44,8 +44,6 @@ public class Swipe : MonoBehaviour
     public float buttonSteps = 9f;         // Number of steps taken when a button is pressed
     public float buttonTimeGap = .05f;     // Time between steps when a button is pressed
     public float maxButtonRotation = 45f;  // Max rotation of page when a button is pressed
-    private float buttonPosStep;           // Position step size when a button is pressed
-    private float buttonRotStep;           // Rotation step size when a button is pressed
 
     public float finalY = -6f;         // Final Y-position when the timer runs out
     public float rejectSteps = 9f;     // Steps to final position from base
@@ -333,9 +331,6 @@ public class Swipe : MonoBehaviour
     {
         SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
         controller.timer.timerIsRunning = false;
-        // Calculates position and step size
-        buttonPosStep = finalX / buttonSteps;
-        buttonRotStep = maxButtonRotation / buttonSteps;
         // Starts the SlowAccept coroutine which moves the page slower through the motion
         StartCoroutine("SlowAccept");
     }
@@ -385,8 +380,6 @@ public class Swipe : MonoBehaviour
         SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
         controller.timer.timerIsRunning = false;
         // Calculates position and step size
-        buttonPosStep = finalX / buttonSteps;
-        buttonRotStep = maxButtonRotation / buttonSteps;
         // Starts the SlowAccept coroutine which moves the page slower through the motion
         StartCoroutine("SlowReject");
     }
