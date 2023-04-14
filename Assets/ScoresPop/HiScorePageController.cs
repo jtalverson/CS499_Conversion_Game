@@ -9,15 +9,16 @@ using ExternalUI.Pagination;
 
 public class HiScorePageController : MonoBehaviour
 {
-    public GameObject dailyScoreParent;
-    public GameObject overallScoreParent;
-    public GameObject pageParent;
-    public PagedRect pageController;
+    public GameObject dailyScoreParent;   // GameObject that is parent to all daily score holders
+    public GameObject overallScoreParent; // GameObject that is parent to all overall score holders
+    public GameObject pageParent;         // Parent of all page objects
+    public PagedRect pageController;      // PagedRect that allows me to update the Pagination
 
-    public GameController controller;
-    public TextAsset allData;
-    public string[] data;
+    public GameController controller;     // Overall GameController
+    public TextAsset allData;             // Text file that contains all of the data
+    public string[] data;                 // Current data being processed
 
+    // Overall high score class which holds difficulty, score, and streak 
     [System.Serializable]
     public class OverallHighScore
     {
@@ -25,7 +26,7 @@ public class HiScorePageController : MonoBehaviour
         public string score = "0";
         public string streak = "0";
     }
-
+    // Daily high score which holds the date and three overall high scores sybolizing difficulty
     [System.Serializable]
     public class DailyHighScore
     {
@@ -34,15 +35,15 @@ public class HiScorePageController : MonoBehaviour
         public OverallHighScore normal = new();
         public OverallHighScore hard = new();
     }
-
+    // Lists containing overall and daily high scores
     public List<OverallHighScore> overallHighScores = new();
     public List<DailyHighScore> dailyHighScores = new();
-
+    // Fills the pages on start
     private void Start()
     {
         FillPages();
     }
-
+    // Clears the two lists, reads data, and populates it on the high score page
     public void FillPages()
     {
         overallHighScores.Clear();
@@ -50,12 +51,12 @@ public class HiScorePageController : MonoBehaviour
         ReadData();
         StartCoroutine("PopulateData");
     }
-
+    // Reads the data from PlayerPrefs
     public void ReadData()
     {
         Debug.Log("reading data");
         
-
+        // Iterates over all of the high scores pushing them to the correct list
         for (int i = 0; i < PlayerPrefs.GetInt("num_overalls"); i++)
         {
             OverallHighScore currentHighScore = new();
@@ -67,7 +68,7 @@ public class HiScorePageController : MonoBehaviour
                 String.Format("overall_{0}_streak", i));
             overallHighScores.Add(currentHighScore);
         }
-
+        // Iterates over all of the daily high scores pushing them to the correct list
         for (int i = 0; i < PlayerPrefs.GetInt("num_dailies"); i++)
         {
             DailyHighScore currentDailyScore = new();
@@ -96,26 +97,26 @@ public class HiScorePageController : MonoBehaviour
             dailyHighScores.Add(currentDailyScore);
         }
     }
-
-    public void StripLastChar(string[] array)
-    {
-        for (int i = 0; i < array.Length - 1; i++)
-            array[i] = array[i].Remove(array[i].Length - 1);
-    }
-
+    // Writes the data to player preferences
     public void WriteData()
     {
+        // Ensures there is data to write
         if (overallHighScores.Count > 0 || dailyHighScores.Count > 0)
         {
+            // Update number of overall high scores
             PlayerPrefs.SetInt("num_overalls", overallHighScores.Count);
+            // Iterates over the number of high scores pushing them into the PlayerPrefs
             for (int i = 0; i < overallHighScores.Count; i++)
             {
                 PlayerPrefs.SetString(String.Format("overall_{0}_difficulty", i), overallHighScores[i].difficulty);
                 PlayerPrefs.SetString(String.Format("overall_{0}_score", i), overallHighScores[i].score);
                 PlayerPrefs.SetString(String.Format("overall_{0}_streak", i), overallHighScores[i].streak);
             }
+            // Sets stopping point so no more than 5 scores are pushed
             int stoppingPoint = Mathf.Min(dailyHighScores.Count, 5);
+            // Updates number of daily high scores
             PlayerPrefs.SetInt("num_dailies", stoppingPoint);
+            // Iterates until the stopping point pushing the correct data into player prefs
             for (int i = 0; i < stoppingPoint; i++)
             {
                 PlayerPrefs.SetString(String.Format("daily_{0}_datetime", i), dailyHighScores[i].date);
@@ -131,6 +132,7 @@ public class HiScorePageController : MonoBehaviour
     }
     public IEnumerator PopulateData()
     {
+        // Disable all pages then update Pagination to reflect these changes
         foreach (Transform t in pageParent.GetComponentsInChildren<Transform>())
             if (t.name.Contains("Page"))
                 t.gameObject.SetActive(false);
@@ -139,23 +141,31 @@ public class HiScorePageController : MonoBehaviour
         //Daily high scores
         for (int i = 0; i < dailyHighScores.Count; i++)
         {
+            // Get the current daily high score
             DailyHighScore currentScore = dailyHighScores[i];
+            // Find the page associated with it
             Transform currentPage = Utility.FindObject(dailyScoreParent, "Page " + (i + 1));
+            // Update the date of this object
             TextMeshProUGUI date = Utility.FindObject(currentPage.gameObject, "Date").GetComponent<TextMeshProUGUI>();
             date.text = currentScore.date;
-
+            // Initialize strings to zero
             string easyScore = "0";
             string easyStreak = "0";
+            // If the easy difficulty has scores in it update the values
             if (dailyHighScores[i].easy.difficulty != "")
             {
                 easyScore = dailyHighScores[i].easy.score;
                 easyStreak = dailyHighScores[i].easy.streak;
             }
+            // Find the easy object and its score and streak children
             Transform easy = Utility.FindObject(currentPage.gameObject, "Easy");
             TextMeshProUGUI score = Utility.FindObject(easy.gameObject, "Score").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI streak = Utility.FindObject(easy.gameObject, "Highest Streak").GetComponent<TextMeshProUGUI>();
+            // Update the text in them
             score.text = "Score:\n" + easyScore;
             streak.text = "Best Streak:\n" + easyStreak;
+
+            // FOLLOW A SIMILAR PROCEDURE FOR NORMAL AND HARD DIFFICULTIES
 
             string normalScore = "0";
             string normalStreak = "0";
@@ -183,23 +193,26 @@ public class HiScorePageController : MonoBehaviour
             score.text = "Score:\n" + hardScore;
             streak.text = "Best Streak:\n" + hardStreak;
 
-
+            // Enable the page in the hierarchy
             if (!currentPage.gameObject.activeInHierarchy)
                 currentPage.gameObject.SetActive(true);
         }
+        // Wait for .1 seconds then update pagination to reflect changes
         yield return new WaitForSeconds(.1f);
         pageController.UpdatePagination();
-
+        // Iterate over all of the overallHighScores
         for (int i = 0; i < overallHighScores.Count; i++)
         {
+            // Establish the current transform
             Transform current = null;
+            // Check the difficulty and assign current appropriately
             if (overallHighScores[i].difficulty == "easy")
                 current = Utility.FindObject(overallScoreParent, "Easy");
             if (overallHighScores[i].difficulty == "normal")
                 current = Utility.FindObject(overallScoreParent, "Medium");
             if (overallHighScores[i].difficulty == "hard")
                 current = Utility.FindObject(overallScoreParent, "Hard");
-
+            // If current is not null populate it correctly
             if (current != null)
             {
                 TextMeshProUGUI score = Utility.FindObject(current.gameObject, "Score").GetComponent<TextMeshProUGUI>();
@@ -209,20 +222,25 @@ public class HiScorePageController : MonoBehaviour
             }
         }
     }
-
+    // Updates the lists when new scores are present
     public void UpdateLists()
     {
         // Update today's data
         if (dailyHighScores.Count > 0 && dailyHighScores[0].date == DateTime.Now.Date.ToShortDateString())
         {
+            // If the difficulty is easy
             if (controller.diffString == "easy")
             {
+                // Make the difficulty string easy instead of the empty string in case this is the first time playing this difficulty
                 dailyHighScores[0].easy.difficulty = "easy";
+                // Check if score is higher then update it
                 if (controller.scoringSystem.score > float.Parse(dailyHighScores[0].easy.score))
                     dailyHighScores[0].easy.score = controller.scoringSystem.score.ToString();
+                // Check if streak is higher then update it
                 if (controller.scoringSystem.bestStreak > float.Parse(dailyHighScores[0].easy.streak))
                     dailyHighScores[0].easy.streak = controller.scoringSystem.bestStreak.ToString();
             }
+            // REPEAT PROCESS FOR NORMAL AND HARD
             if (controller.diffString == "normal")
             {
                 dailyHighScores[0].normal.difficulty = "normal";
@@ -240,10 +258,14 @@ public class HiScorePageController : MonoBehaviour
                     dailyHighScores[0].hard.streak = controller.scoringSystem.bestStreak.ToString();
             }
         }
+        // Otherwise this is the first time we have played today
         else
         {
+            // Create a new daily high score
             DailyHighScore newDaily = new();
+            // Set the date
             newDaily.date = DateTime.Now.Date.ToShortDateString();
+            // Depending on the difficulty set the values appropriately
             if (controller.diffString == "easy")
             {
                 newDaily.easy.difficulty = "easy";
@@ -262,16 +284,19 @@ public class HiScorePageController : MonoBehaviour
                 newDaily.hard.score = controller.scoringSystem.score.ToString();
                 newDaily.hard.streak = controller.scoringSystem.bestStreak.ToString();
             }
-            dailyHighScores.Add(newDaily);
+            // Insert this new dailt score into the list
+            dailyHighScores.Insert(0, newDaily);
         }
         // Update overall scores
-        if (controller.diffString == "easy")
+        if (controller.diffString == "easy") // If easy is the current difficulty
         {
+            // Create a search index
             int index = -1;
+            // Look for it in the list updating index if found
             for (int i = 0; i < overallHighScores.Count; i++)
                 if (overallHighScores[i].difficulty == "easy")
                     index = i;
-
+            // If we have found it, check to see if the score or streak is any better and update if so
             if (index != -1)
             {
                 if (controller.scoringSystem.score > float.Parse(overallHighScores[index].score))
@@ -279,15 +304,18 @@ public class HiScorePageController : MonoBehaviour
                 if (controller.scoringSystem.bestStreak > float.Parse(overallHighScores[index].streak))
                     overallHighScores[index].streak = controller.scoringSystem.bestStreak.ToString();
             }
+            // Otherwise create a new OverallHighScore
             else
             {
                 OverallHighScore newHighScore = new();
+                // Populate all fields correctly and append to the list
                 newHighScore.difficulty = "easy";
                 newHighScore.score = controller.scoringSystem.score.ToString();
                 newHighScore.streak = controller.scoringSystem.bestStreak.ToString();
                 overallHighScores.Add(newHighScore);
             }
         }
+        // FOLLOW THE SAME PROCEDURE FOR NORMAL AND HARD
         if (controller.diffString == "normal")
         {
             int index = -1;
@@ -334,7 +362,7 @@ public class HiScorePageController : MonoBehaviour
                 overallHighScores.Add(newHighScore);
             }
         }
-
+        // Write the updated data to PlayerPrefs
         WriteData();
     }
 }
