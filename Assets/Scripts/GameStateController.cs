@@ -42,26 +42,28 @@ public class GameStateController : MonoBehaviour
     {
         _gameended = val;
     }
-
+    // End the game with the winORlose passed in
     public void Set_GameEnded(bool val, bool winORlose)
     {
+        // Disable both the win and lose message
         winMessage.SetActive(false);
         loseMessage.SetActive(false);
+        // If you have won play the sound and set the winMessage to active
         if (winORlose)
         {
             audioSource.PlayOneShot(WinSound);
             winMessage.SetActive(true);
         }
-
+        // Otherwise play the lose sound and set loseMessage to active
         else
         {
             audioSource.PlayOneShot(LoseSound);
             loseMessage.SetActive(true);
         }
-
+        // Update the streak and score recap
         Utility.FindObject(gameObject, "RecapScoreValue").GetComponent<TextMeshProUGUI>().text = scoringSystem.score.ToString();
         Utility.FindObject(gameObject, "RecapStreakValue").GetComponent<TextMeshProUGUI>().text = scoringSystem.bestStreak.ToString();
-
+        // Update _gameended
         _gameended = val;
     }
 
