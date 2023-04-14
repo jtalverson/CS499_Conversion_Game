@@ -52,14 +52,23 @@ public class Swipe : MonoBehaviour
     public float rejectTimeGap = .05f; // Time gap between reject movement
     private float rejectPosStep;       // Position step size for time up
 
-    public string currentAnswer;       // String of current answer
-    public GameController controller;  // Game controller object
+    [HideInInspector]
+    private Vector3 swipeAcceptedInitialPosition;
+
+    public float animationLength = 1;
+
+    public string currentAnswer;
+    public GameController controller;
 
     private bool startTimer = false;   // Controls when the timer can be started
 
     public GameObject pauseMenu;       // Used to determine if swiping is allowed
 
-    // On start save all of the initial values to their variables
+    public AudioSource SwipeNoiseSource;
+    public AudioClip SwipeNoiseClip;
+    public AudioClip RightNoiseClip;
+    public AudioClip WrongNoiseClip;
+    public GameObject GameBackground;
     private void Start()
     {
         startPosition = transform.position;
@@ -176,7 +185,8 @@ public class Swipe : MonoBehaviour
                 // If the distance moved is acceptable
                 if (Mathf.Abs(distanceMoved) > acceptDistance)
                 {
-                    // Start accept or reject
+                    SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
+                    swipeAcceptedInitialPosition = transform.position;
                     StartCoroutine("AcceptOrReject");
                     Debug.Log("Good swipe");
                 }
@@ -243,12 +253,15 @@ public class Swipe : MonoBehaviour
         // Swiped right
         if (distanceMoved > 0)
         {
+            float elapsedTime = 0.0f;
             Debug.Log("Swiped RIGHT");
-            // While the page is not at the desired X position move it right and wait
-            while (transform.position.x < finalX)
+            while (elapsedTime < animationLength)
             {
-                transform.position += new Vector3(xStepSize, 0f, 0f);
-                yield return new WaitForSeconds(xTimeGap);
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector3.Lerp(swipeAcceptedInitialPosition,
+                    new Vector3(finalX, transform.position.y),
+                    easeOutCubic(elapsedTime / animationLength));
+                yield return null;
             }
             // If the first character of the answer is Y
             if (currentAnswer[0] == 'Y')
@@ -272,12 +285,15 @@ public class Swipe : MonoBehaviour
         // Swiped left
         else
         {
+            float elapsedTime = 0.0f;
             Debug.Log("Swiped LEFT");
-            // While the page is not at the desired X position move it left and wait
-            while (transform.position.x > -1 * finalX)
+            while (elapsedTime < animationLength)
             {
-                transform.position -= new Vector3(xStepSize, 0f, 0f);
-                yield return new WaitForSeconds(xTimeGap);
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector3.Lerp(swipeAcceptedInitialPosition,
+                    new Vector3(-finalX, transform.position.y),
+                    easeOutCubic(elapsedTime / animationLength));
+                yield return null;
             }
             // If the first character of the answer is N
             if (currentAnswer[0] == 'N')
@@ -315,7 +331,7 @@ public class Swipe : MonoBehaviour
     // Run when the accept button is pressed
     public void Accept()
     {
-        // Stops the timer
+        SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
         controller.timer.timerIsRunning = false;
         // Calculates position and step size
         buttonPosStep = finalX / buttonSteps;
@@ -326,17 +342,20 @@ public class Swipe : MonoBehaviour
     // Slowly moves page to the right
     private IEnumerator SlowAccept()
     {
-        // While the page is not at the desired X position
-        while (transform.position.x < finalX)
+        float elapsedTime = 0.0f;
+        while (elapsedTime < animationLength)
         {
-            // Move it and rotate it the step size then wait
-            transform.RotateAround(transform.position, Vector3.forward, buttonRotStep);
-            transform.position += new Vector3(buttonPosStep, 0);
-            yield return new WaitForSeconds(buttonTimeGap);
+            elapsedTime += Time.deltaTime;
+            float lerpedAngle = Mathf.Lerp(0, maxButtonRotation, easeOutCubic(elapsedTime / animationLength));
+            float angleDelta = lerpedAngle - transform.rotation.eulerAngles.z;
+            transform.RotateAround(transform.position, Vector3.forward, angleDelta);
+            transform.position = Vector3.Lerp(startPosition, new Vector3(finalX, transform.position.y), easeOutCubic(elapsedTime / animationLength));
+            yield return null;
         }
         // If the answer is correct process it as so
         if (currentAnswer[0] == 'Y')
         {
+            SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
@@ -344,6 +363,7 @@ public class Swipe : MonoBehaviour
         // Otherwise process it as incorrect
         else
         {
+            SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");
@@ -362,7 +382,7 @@ public class Swipe : MonoBehaviour
     // Run when the accept button is pressed
     public void Reject()
     {
-        // Stops the timer
+        SwipeNoiseSource.PlayOneShot(SwipeNoiseClip);
         controller.timer.timerIsRunning = false;
         // Calculates position and step size
         buttonPosStep = finalX / buttonSteps;
@@ -370,20 +390,28 @@ public class Swipe : MonoBehaviour
         // Starts the SlowAccept coroutine which moves the page slower through the motion
         StartCoroutine("SlowReject");
     }
-    // Slowly moves page to the left
+
+    private float easeOutCubic(float x)
+    {
+        return 1 - Mathf.Pow(1 - x, 3);
+    }
+
     private IEnumerator SlowReject()
     {
-        // While the page is not at the desired X position
-        while (transform.position.x > -finalX)
+        float elapsedTime = 0.0f;
+        while (elapsedTime < animationLength)
         {
-            // Move it and rotate it the step size then wait
-            transform.RotateAround(transform.position, Vector3.forward, -buttonRotStep);
-            transform.position -= new Vector3(buttonPosStep, 0);
-            yield return new WaitForSeconds(buttonTimeGap);
+            elapsedTime += Time.deltaTime;
+            float lerpedAngle = Mathf.Lerp(0, -maxButtonRotation, easeOutCubic(elapsedTime / animationLength));
+            float angleDelta = lerpedAngle - transform.rotation.eulerAngles.z;
+            transform.RotateAround(transform.position, Vector3.forward, angleDelta);
+            transform.position = Vector3.Lerp(startPosition, new Vector3(-finalX, transform.position.y), easeOutCubic(elapsedTime / animationLength));
+            yield return null;
         }
         // If the answer is correct process it as so
         if (currentAnswer[0] == 'N')
         {
+            SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
             Debug.Log("right answer");
@@ -391,6 +419,7 @@ public class Swipe : MonoBehaviour
         // Otherwise process it as incorrect
         else
         {
+            SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
             Debug.Log("wrong answer");

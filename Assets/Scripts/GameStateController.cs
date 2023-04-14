@@ -11,12 +11,31 @@ public class GameStateController : MonoBehaviour
     public GameObject winMessage;
     public GameObject loseMessage;
     public ScoringSystem scoringSystem;
+    public AudioSource audioSource;
+    public AudioClip LoseSound;
+    public AudioClip WinSound;
+    public AudioClip BtnPressSound;
 
     private bool _gameended = false;
 
     public bool Get_GameEnded()
     {
         return _gameended;
+    }
+
+    public void init_game()
+    {
+        GameObject[] canvases = GameObject.FindGameObjectsWithTag("GameCanvas");
+        foreach (GameObject gao in canvases)
+        {
+            gao.SetActive(false);
+        }
+
+    }
+
+    public void BtnPress()
+    {
+        audioSource.PlayOneShot(BtnPressSound);
     }
 
     public void Set_GameEnded(bool val)
@@ -29,9 +48,16 @@ public class GameStateController : MonoBehaviour
         winMessage.SetActive(false);
         loseMessage.SetActive(false);
         if (winORlose)
+        {
+            audioSource.PlayOneShot(WinSound);
             winMessage.SetActive(true);
+        }
+
         else
+        {
+            audioSource.PlayOneShot(LoseSound);
             loseMessage.SetActive(true);
+        }
 
         Utility.FindObject(gameObject, "RecapScoreValue").GetComponent<TextMeshProUGUI>().text = scoringSystem.score.ToString();
         Utility.FindObject(gameObject, "RecapStreakValue").GetComponent<TextMeshProUGUI>().text = scoringSystem.bestStreak.ToString();
@@ -41,7 +67,7 @@ public class GameStateController : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
     }
 
 }
