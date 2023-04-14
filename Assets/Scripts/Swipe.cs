@@ -51,16 +51,16 @@ public class Swipe : MonoBehaviour
     private float rejectPosStep;       // Position step size for time up
 
     [HideInInspector]
-    private Vector3 swipeAcceptedInitialPosition;
+    private Vector3 swipeAcceptedInitialPosition; // Inital position of the object once a swipe is complete
 
-    public float animationLength = 1;
+    public float animationLength = 1; // Duration of movement animation
 
-    public string currentAnswer;
-    public GameController controller;
+    public string currentAnswer;      // Holds the current answer as a string
+    public GameController controller; // GameController object
 
-    private bool startTimer = false;   // Controls when the timer can be started
+    private bool startTimer = false;  // Controls when the timer can be started
 
-    public GameObject pauseMenu;       // Used to determine if swiping is allowed
+    public GameObject pauseMenu;      // Used to determine if swiping is allowed
 
     public AudioSource SwipeNoiseSource;
     public AudioClip SwipeNoiseClip;
@@ -268,6 +268,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(true);
                 // Update the score with the time remaining and signal correct answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
+                SwipeNoiseSource.PlayOneShot(RightNoiseClip);
                 Debug.Log("right answer");
             }
             // Otherwise the answer was wrong
@@ -277,6 +278,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(false);
                 // Update the score with the time remaining and signal incorrect answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
+                SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
                 Debug.Log("wrong answer");
             }
         }
@@ -300,6 +302,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(true);
                 // Update the score with the time remaining and signal correct answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
+                SwipeNoiseSource.PlayOneShot(RightNoiseClip);
                 Debug.Log("right answer");
             }
             else
@@ -308,6 +311,7 @@ public class Swipe : MonoBehaviour
                 controller.Populate(false);
                 // Update the score with the time remaining and signal incorrect answer
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
+                SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
                 Debug.Log("wrong answer");
             }
         }
