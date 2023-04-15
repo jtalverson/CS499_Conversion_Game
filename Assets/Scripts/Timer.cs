@@ -13,6 +13,7 @@ public class Timer : MonoBehaviour
     public Color baseColor;
     public Color noTimeColor;
 
+
     void Update()
     {
         if (timerIsRunning)
