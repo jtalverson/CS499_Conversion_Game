@@ -15,8 +15,24 @@ public class GameStateController : MonoBehaviour
     public AudioClip LoseSound;
     public AudioClip WinSound;
     public AudioClip BtnPressSound;
+    public Color CorrectGlowColor;
+    public Color WrongGlowColor;
 
+    private bool _playCorrectColor = false;
+    private bool _playWrongColor = false;
     private bool _gameended = false;
+
+    public bool PlayCorrectColor
+    {
+        get { return _playCorrectColor; }
+        set { _playCorrectColor = value; }
+    }
+
+    public bool PlayWrongColor
+    {
+        get { return _playWrongColor; }
+        set { _playWrongColor = value; }
+    }
 
     public bool Get_GameEnded()
     {

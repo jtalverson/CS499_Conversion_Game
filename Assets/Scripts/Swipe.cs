@@ -251,6 +251,7 @@ public class Swipe : MonoBehaviour
         }
     }
 
+
     // Handles the final movement of accepting and rejecting after a swipe
     public IEnumerator AcceptOrReject()
     {
@@ -284,6 +285,8 @@ public class Swipe : MonoBehaviour
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
                 // Play right noise clip
                 SwipeNoiseSource.PlayOneShot(RightNoiseClip);
+                controller.stateController.PlayCorrectColor = true;
+                Debug.Log(string.Format("Play Correct Color: {0}", controller.stateController.PlayCorrectColor));
                 Debug.Log("right answer");
             }
             // Otherwise the answer was wrong
@@ -295,6 +298,8 @@ public class Swipe : MonoBehaviour
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
                 // Play wrong noise clip
                 SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
+                controller.stateController.PlayWrongColor = true;
+                Debug.Log(string.Format("Play Wrong Color: {0}", controller.stateController.PlayWrongColor));
                 Debug.Log("wrong answer");
             }
         }
@@ -325,6 +330,8 @@ public class Swipe : MonoBehaviour
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
                 // Play right noise clip
                 SwipeNoiseSource.PlayOneShot(RightNoiseClip);
+                controller.stateController.PlayCorrectColor = true;
+                Debug.Log(string.Format("Play Correct Color: {0}", controller.stateController.PlayCorrectColor));
                 Debug.Log("right answer");
             }
             else
@@ -335,6 +342,8 @@ public class Swipe : MonoBehaviour
                 controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
                 // Play wrong noise clip
                 SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
+                controller.stateController.PlayWrongColor = true;
+                Debug.Log(string.Format("Play Wrong Color: {0}", controller.stateController.PlayWrongColor));
                 Debug.Log("wrong answer");
             }
         }
@@ -388,6 +397,8 @@ public class Swipe : MonoBehaviour
             SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
+            controller.stateController.PlayCorrectColor = true;
+            Debug.Log(string.Format("Play Correct Color: {0}", controller.stateController.PlayCorrectColor));
             Debug.Log("right answer");
         }
         // Otherwise process it as incorrect
@@ -396,6 +407,8 @@ public class Swipe : MonoBehaviour
             SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
+            controller.stateController.PlayWrongColor = true;
+            Debug.Log(string.Format("Play Wrong Color: {0}", controller.stateController.PlayWrongColor));
             Debug.Log("wrong answer");
         }
         // Reset timer
@@ -452,6 +465,8 @@ public class Swipe : MonoBehaviour
             SwipeNoiseSource.PlayOneShot(RightNoiseClip);
             controller.Populate(true);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, true);
+            controller.stateController.PlayCorrectColor = true;
+            Debug.Log(string.Format("Play Correct Color: {0}", controller.stateController.PlayCorrectColor));
             Debug.Log("right answer");
         }
         // Otherwise process it as incorrect
@@ -461,6 +476,8 @@ public class Swipe : MonoBehaviour
             SwipeNoiseSource.PlayOneShot(WrongNoiseClip);
             controller.Populate(false);
             controller.scoringSystem.ScoreUpdate(controller.timer.timeRemaining, false);
+            controller.stateController.PlayWrongColor = true;
+            Debug.Log(string.Format("Play Wrong Color: {0}", controller.stateController.PlayWrongColor));
             Debug.Log("wrong answer");
         }
         // Reset timer
