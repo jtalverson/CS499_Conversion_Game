@@ -72,4 +72,19 @@ public class GameStateController : MonoBehaviour
         Application.targetFrameRate = 120;
     }
 
+    public bool FTUEDone
+    {
+        get 
+        {
+            if (PlayerPrefs.HasKey("ftue_done"))
+            {
+                if (PlayerPrefs.GetInt("ftue_done") == 1) return true;
+                else return false;
+            }
+            else return false;
+                
+        }
+        set { PlayerPrefs.SetInt("ftue_done", value ? 1 : 0); PlayerPrefs.Save(); }
+    }
+
 }

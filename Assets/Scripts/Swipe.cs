@@ -13,7 +13,7 @@ public class Swipe : MonoBehaviour
     private Vector3 currentRotationAngles; // Euler angles of current rotation
     private float rotationDifference;      // Difference between z-axis angles of current and start
 
-    public bool canSwipe = true;             // Is the user allowed to swipe
+    public bool _canSwipe = true;             // Is the user allowed to swipe
     public float maxRotation = 65f;          // Maximum amount the page is allowed to rotate per swipe in degrees
     public float acceptDistance = 350f;      // Acceptance swipe distance
     public float angleCap = 200f;            // Value has to be higher than this to subtract 360 (for negative angles)
@@ -72,6 +72,12 @@ public class Swipe : MonoBehaviour
         startPosition = transform.position;
         startRotation = transform.localRotation;
         startRotationAngles = startRotation.eulerAngles;
+    }
+
+    public bool canSwipe
+    {
+        get { return _canSwipe; }
+        set { _canSwipe = value; }
     }
 
     // When the page is enabled in the hierarchy
