@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class FindObject : MonoBehaviour
 {
-    public GameObject EasyAllTime;
-    public GameObject NormalAllTime;
-    public GameObject HardAllTime;
     public static Transform Find_Object(GameObject parent, string childName)
     {
         Transform[] trs = parent.GetComponentsInChildren<Transform>(true);
@@ -27,18 +24,5 @@ public class FindObject : MonoBehaviour
                 return t.gameObject;
         }
         return null;
-    }
-    public void DeleteSaveData()
-    {
-        // DELETES ALL SAVE DATA FROM PLAYERPREFS
-        Debug.Log("Save Data deleted");
-        PlayerPrefs.DeleteAll();
-        // Reset high score screen
-        Find_GameObject(EasyAllTime, "Score").GetComponent<TextMeshProUGUI>().text = "Score:\n0";
-        Find_GameObject(EasyAllTime, "Highest Streak").GetComponent<TextMeshProUGUI>().text = "Best Streak:\n0";
-        Find_GameObject(NormalAllTime, "Score").GetComponent<TextMeshProUGUI>().text = "Score:\n0";
-        Find_GameObject(NormalAllTime, "Highest Streak").GetComponent<TextMeshProUGUI>().text = "Best Streak:\n0";
-        Find_GameObject(HardAllTime, "Score").GetComponent<TextMeshProUGUI>().text = "Score:\n0";
-        Find_GameObject(HardAllTime, "Highest Streak").GetComponent<TextMeshProUGUI>().text = "Best Streak:\n0";
     }
 }

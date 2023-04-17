@@ -200,6 +200,38 @@ public class HiScorePageController : MonoBehaviour
         // Wait for .1 seconds then update pagination to reflect changes
         yield return new WaitForSeconds(.1f);
         pageController.UpdatePagination();
+
+        // Sometimes the overall High Score objects remain populated even after a save data deletion
+        // this ensures that unless there are actual scores to be reported, the objects will say 0
+        if (overallHighScores.Count == 0)
+        {
+            GameObject easyBox = FindObject.Find_GameObject(overallScoreParent, "Easy");
+            GameObject normalBox = FindObject.Find_GameObject(overallScoreParent, "Medium");
+            GameObject hardBox = FindObject.Find_GameObject(overallScoreParent, "Hard");
+            if (easyBox != null)
+            {
+                TextMeshProUGUI score = Utility.FindObject(easyBox, "Score").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI streak = Utility.FindObject(easyBox, "Highest Streak").GetComponent<TextMeshProUGUI>();
+                score.text = "Score:\n0";
+                streak.text = "Best Streak:\n0";
+            }
+            if (normalBox != null)
+            {
+                TextMeshProUGUI score = Utility.FindObject(normalBox, "Score").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI streak = Utility.FindObject(normalBox, "Highest Streak").GetComponent<TextMeshProUGUI>();
+                score.text = "Score:\n0";
+                streak.text = "Best Streak:\n0";
+            }
+            if (hardBox != null)
+            {
+                TextMeshProUGUI score = Utility.FindObject(hardBox, "Score").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI streak = Utility.FindObject(hardBox, "Highest Streak").GetComponent<TextMeshProUGUI>();
+                score.text = "Score:\n0";
+                streak.text = "Best Streak:\n0";
+            }
+
+
+        }
         // Iterate over all of the overallHighScores
         for (int i = 0; i < overallHighScores.Count; i++)
         {
@@ -364,5 +396,12 @@ public class HiScorePageController : MonoBehaviour
         }
         // Write the updated data to PlayerPrefs
         WriteData();
+    }
+    public void DeleteSaveData()
+    {
+        // create tmp gameobject with find gameobject function
+        // DELETES ALL SAVE DATA FROM PLAYERPREFS
+        Debug.Log("Save Data deleted");
+        PlayerPrefs.DeleteAll();
     }
 }
